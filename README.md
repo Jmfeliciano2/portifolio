@@ -2,7 +2,7 @@
 
 Portfólio pessoal desenvolvido para apresentar minha trajetória inicial como Desenvolvedor Frontend, meus projetos e minhas habilidades técnicas em constante evolução.
 
-🔗 Acesse o site: https://seu-usuario.github.io/nome-do-repositorio/
+🔗 Acesse o site: [https://seu-usuario.github.io/nome-do-repositorio/](https://jmfeliciano2.github.io/portifolio/)
 
 📌 Sobre o projeto
 
