@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seu Nome | Desenvolvedor Frontend</title>
+  <meta name="description" content="Portfólio de Seu Nome, desenvolvedor Frontend iniciante focado em criar interfaces modernas, responsivas e intuitivas." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Ícones (Font Awesome via CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:," />
+</head>
+<body>
+
+  <!-- ==================== BACKGROUND DE PARTÍCULAS ==================== -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__container">
+      <a href="#hero" class="navbar__logo">
+        
+      </a>
+
+      <nav class="navbar__nav" id="navMenu">
+        <a href="#sobre" class="navbar__link">Sobre</a>
+        <a href="#tecnologias" class="navbar__link">Tecnologias</a>
+        <a href="#habilidades" class="navbar__link">Habilidades</a>
+        <a href="#projetos" class="navbar__link">Projetos</a>
+        <a href="#contato" class="navbar__link">Contato</a>
+      </nav>
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+      <div class="hero__container">
+        <p class="hero__eyebrow fade-in">Olá, seja bem-vindo(a) ao meu espaço</p>
+
+        <h1 class="hero__name fade-in">João Matheus</h1>
+
+        <h2 class="hero__title fade-in">
+          <span id="typing-text"></span><span class="hero__cursor">|</span>
+        </h2>
+
+        <p class="hero__description fade-in">
+          Estudante do 1º período de faculdade, em transição para a área de tecnologia
+          com foco em Desenvolvimento Frontend. Aprendendo HTML, CSS e JavaScript na
+          prática, um projeto de cada vez.
+        </p>
+
+        <div class="hero__actions fade-in">
+          <a href="#projetos" class="btn btn--primary">
+            <i class="fa-solid fa-diagram-project"></i>
+            Ver Projetos
+          </a>
+          <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+            <i class="fa-brands fa-github"></i>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+            <i class="fa-brands fa-linkedin"></i>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <a href="#sobre" class="hero__scroll-indicator" aria-label="Rolar para baixo">
+        <i class="fa-solid fa-chevron-down"></i>
+      </a>
+    </section>
+
+    <!-- ==================== SOBRE MIM ==================== -->
+    <section class="section" id="sobre">
+      <div class="section__container">
+        <p class="section__eyebrow fade-in">Sobre mim</p>
+        <h2 class="section__title fade-in">Começando com propósito</h2>
+
+        <div class="about__grid">
+          <div class="about__text fade-in">
+            <p>
+              Estou dando os primeiros passos na área de tecnologia, cursando o
+              <strong> 1º período da faculdade</strong> e direcionando meus estudos
+              para o <strong>Desenvolvimento Frontend</strong>. Escolhi essa área
+              porque me encanto com a ideia de transformar ideias em interfaces
+              reais, modernas e intuitivas, que fazem sentido para quem usa.
+            </p>
+            <p>
+              No dia a dia, dedico tempo para aprender continuamente: estudo
+              HTML, CSS e JavaScript, acompanho boas práticas de UI/UX e coloco
+              a mão na massa em pequenos projetos para ganhar experiência real.
+              Sei que estou no início da jornada, mas encaro cada linha de
+              código como um passo consistente rumo ao profissional que quero
+              me tornar.
+            </p>
+            <p>
+              Busco oportunidades para aprender, colaborar e evoluir, unindo
+              curiosidade técnica com atenção genuína aos detalhes de cada
+              interface que construo.
+            </p>
+          </div>
+
+          <div class="about__highlights fade-in">
+            <div class="highlight-card">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <h3>Formação</h3>
+              <p>1º período — Faculdade</p>
+            </div>
+            <div class="highlight-card">
+              <i class="fa-solid fa-code"></i>
+              <h3>Foco</h3>
+              <p>Desenvolvimento Frontend</p>
+            </div>
+            <div class="highlight-card">
+              <i class="fa-solid fa-seedling"></i>
+              <h3>Jornada</h3>
+              <p>Aprendizado contínuo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TECNOLOGIAS ==================== -->
+    <section class="section section--alt" id="tecnologias">
+      <div class="section__container">
+        <p class="section__eyebrow fade-in">Stack atual</p>
+        <h2 class="section__title fade-in">Tecnologias que utilizo</h2>
+
+        <div class="tech-grid">
+          <div class="tech-item fade-in">
+            <i class="fa-brands fa-html5" style="color: #e34f26;"></i>
+            <span>HTML5</span>
+          </div>
+          <div class="tech-item fade-in">
+            <i class="fa-brands fa-css3-alt" style="color: #2965f1;"></i>
+            <span>CSS3</span>
+          </div>
+          <div class="tech-item fade-in">
+            <i class="fa-brands fa-js" style="color: #f7df1e;"></i>
+            <span>JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HABILIDADES ==================== -->
+    <section class="section" id="habilidades">
+      <div class="section__container">
+        <p class="section__eyebrow fade-in">Habilidades</p>
+        <h2 class="section__title fade-in">No que estou evoluindo</h2>
+
+        <div class="skills-grid">
+          <div class="skill-card fade-in">
+            <div class="skill-card__icon">
+              <i class="fa-brands fa-html5" style="color: #e34f26;"></i>
+            </div>
+            <h3>HTML</h3>
+            <p>Estruturação semântica de páginas, acessibilidade básica e boas práticas de marcação.</p>
+            <div class="skill-card__bar">
+              <div class="skill-card__bar-fill" data-progress="70"></div>
+            </div>
+            <span class="skill-card__percent">70%</span>
+          </div>
+
+          <div class="skill-card fade-in">
+            <div class="skill-card__icon">
+              <i class="fa-brands fa-css3-alt" style="color: #2965f1;"></i>
+            </div>
+            <h3>CSS</h3>
+            <p>Layouts responsivos com Flexbox e Grid, variáveis, animações e design moderno.</p>
+            <div class="skill-card__bar">
+              <div class="skill-card__bar-fill" data-progress="60"></div>
+            </div>
+            <span class="skill-card__percent">60%</span>
+          </div>
+
+          <div class="skill-card fade-in">
+            <div class="skill-card__icon">
+              <i class="fa-brands fa-js" style="color: #f7df1e;"></i>
+            </div>
+            <h3>JavaScript</h3>
+            <p>Lógica de programação, manipulação do DOM e interatividade em páginas web.</p>
+            <div class="skill-card__bar">
+              <div class="skill-card__bar-fill" data-progress="45"></div>
+            </div>
+            <span class="skill-card__percent">45%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PROJETOS ==================== -->
+    <section class="section section--alt" id="projetos">
+      <div class="section__container">
+        <p class="section__eyebrow fade-in">Projetos</p>
+        <h2 class="section__title fade-in">O que venho construindo</h2>
+        <p class="section__subtitle fade-in">
+          Esta seção vai crescer conforme eu evoluo. Por enquanto, alguns exemplos
+          do tipo de projeto que pretendo desenvolver:
+        </p>
+
+        <div class="projects-grid">
+          <article class="project-card fade-in">
+            <div class="project-card__header">
+              <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div class="project-card__body">
+              <h3>Cinelog</h3>
+              <p>
+                Aplicação simples para registro e diário de filmes, com adição de títulos assistidos, avaliação por notas e marcação de favoritos. A ferramenta foi desenvolvida para organizar e catalogar experiências cinematográficas, permitindo o controle de produções já concluídas. Veja mais detalhes em
+              </p>
+              <div class="project-card__tags">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+              </div>
+            </div>
+            <a href="https://github.com/Jmfeliciano2/Cinelog" target="_blank" class="project-card__link">
+              <i class="fa-brands fa-github"></i>
+              Ver no GitHub
+            </a>
+          </article>
+
+          <article class="project-card fade-in">
+            <div class="project-card__header">
+              <i class="fa-solid fa-cloud-sun"></i>
+            </div>
+            <div class="project-card__body">
+              <h3>App de Previsão do Tempo</h3>
+              <p>
+                Estação agrícola em Arduino que monitora temperatura, umidade e luminosidade em campo.
+O sistema simula dados de satélites para apoiar a decisão de pequenos produtores.
+Conta com alertas visuais e sonoros para prevenir perdas de safra em tempo real.
+Desenvolvida com C++ (Arduino IDE) e circuito simulado na plataforma Tinkercad.
+Acesse o código e o esquema completo no repositório AgroSat no GitHub.
+              </p>
+              <div class="project-card__tags">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>API</span>
+              </div>
+            </div>
+            <a href="https://github.com/Jmfeliciano2/AgroSat" target="_blank" class="project-card__link">
+              <i class="fa-brands fa-github"></i>
+              Ver no GitHub
+            </a>
+          </article>
+
+          <article class="project-card fade-in">
+            <div class="project-card__header">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <div class="project-card__body">
+              <h3>Vinheria Agnello</h3>
+              <p>
+               Interface web para a **Vinheria Agnello** que exibe o catálogo de vinhos, a história da marca e formulários de contato, desenvolvida com HTML, CSS e JavaScript e layout responsivo.
+              </p>
+              <div class="project-card__tags">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+              </div>
+            </div>
+            <a href="https://github.com/Jmfeliciano2/vinheria-agnello" target="_blank" class="project-card__link">
+              <i class="fa-brands fa-github"></i>
+              Ver no GitHub
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTATO ==================== -->
+    <section class="section" id="contato">
+      <div class="section__container">
+        <p class="section__eyebrow fade-in">Contato</p>
+        <h2 class="section__title fade-in">Vamos conversar?</h2>
+        <p class="section__subtitle fade-in">
+          Estou aberto(a) a oportunidades, projetos e trocas de conhecimento.
+          Fique à vontade para entrar em contato.
+        </p>
+
+        <div class="contact-grid">
+          <a href="mailto:seuemail@exemplo.com" class="contact-card fade-in">
+            <i class="fa-solid fa-envelope"></i>
+            <h3>Email</h3>
+            <span>felicianomatheus265@gmail.com</span>
+          </a>
+          <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer" class="contact-card fade-in">
+            <i class="fa-brands fa-github"></i>
+            <h3>GitHub</h3>
+            <span>https://github.com/Jmfeliciano2</span>
+          </a>
+          <a href="https://linkedin.com/in/seu-usuario" target="_blank" rel="noopener noreferrer" class="contact-card fade-in">
+            <i class="fa-brands fa-linkedin"></i>
+            <h3>LinkedIn</h3>
+            <span>https://www.linkedin.com/in/joaomatheusfeliciano/</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== RODAPÉ ==================== -->
+  <footer class="footer">
+    <p>Desenvolvido por <span>João Matheus</span> • 2026</p>
+  </footer>
+
+  <!-- ==================== BOTÃO VOLTAR AO TOPO ==================== -->
+  <button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
