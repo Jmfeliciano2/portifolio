@@ -3,387 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>João Matheus — Desenvolvedor Frontend</title>
-  <meta name="description" content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP em transição de carreira para Desenvolvimento Frontend." />
-
-  <!-- Fontes: Fraunces (display serifada) + Archivo (corpo) + JetBrains Mono (código) -->
+  <meta name="theme-color" content="#0b0d0c" />
+  <meta name="description" content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP e desenvolvedor focado em experiências web responsivas e bem estruturadas." />
+  <title>João Matheus — Frontend Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- Ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="data:," />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
 <body>
-
-  <div class="ide-shell">
-
-    <!-- ==================== BOTÃO DE ABRIR MENU (MOBILE) ==================== -->
-    <button id="drawerToggle" class="drawer-toggle" aria-label="Abrir navegação" aria-expanded="false" aria-controls="sidebar">
-      <i class="fa-solid fa-bars"></i>
-      <span>joao-matheus/portfolio</span>
-    </button>
-
-    <!-- ==================== SIDEBAR (ÁRVORE DE ARQUIVOS) ==================== -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar__brand">
-        <span class="sidebar__brand-icon">&lt;/&gt;</span>
-        <span class="sidebar__brand-name">joao-matheus</span>
-        <button id="drawerClose" class="sidebar__close" aria-label="Fechar navegação">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <nav class="sidebar__tree" aria-label="Seções do portfólio">
-        <span class="sidebar__tree-label">EXPLORER</span>
-
-        <a href="#hero" class="tree-item is-active" data-target="hero">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-file-code"></i>
-          hero.js
-        </a>
-        <a href="#sobre" class="tree-item" data-target="sobre">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-file-lines"></i>
-          sobre.md
-        </a>
-        <a href="#tecnologias" class="tree-item" data-target="tecnologias">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-file"></i>
-          tecnologias.json
-        </a>
-        <a href="#habilidades" class="tree-item" data-target="habilidades">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-file"></i>
-          habilidades.css
-        </a>
-        <a href="#projetos" class="tree-item" data-target="projetos">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-folder"></i>
-          projetos/
-        </a>
-        <a href="#contato" class="tree-item" data-target="contato">
-          <span class="tree-item__dot" aria-hidden="true"></span>
-          <i class="fa-regular fa-file"></i>
-          contato.txt
-        </a>
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="wordmark" href="#top" aria-label="Ir para o início">JM<span>.</span></a>
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a href="#sobre">Sobre</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#stack">Stack</a>
+        <a href="#contato">Contato</a>
       </nav>
-
-      <div class="sidebar__footer">
-        <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer" aria-label="GitHub de João Matheus">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://linkedin.com/in/seu-usuario" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de João Matheus">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-      </div>
-    </aside>
-
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-
-    <!-- ==================== ÁREA PRINCIPAL ==================== -->
-    <div class="main">
-
-      <!-- Barra de abas (espelha a sidebar, some no mobile) -->
-      <div class="tab-bar" id="tabBar" aria-hidden="true">
-        <a href="#hero" class="tab is-active" data-target="hero" tabindex="-1">hero.js</a>
-        <a href="#sobre" class="tab" data-target="sobre" tabindex="-1">sobre.md</a>
-        <a href="#tecnologias" class="tab" data-target="tecnologias" tabindex="-1">tecnologias.json</a>
-        <a href="#habilidades" class="tab" data-target="habilidades" tabindex="-1">habilidades.css</a>
-        <a href="#projetos" class="tab" data-target="projetos" tabindex="-1">projetos/</a>
-        <a href="#contato" class="tab" data-target="contato" tabindex="-1">contato.txt</a>
-      </div>
-
-      <main class="content">
-
-        <!-- ==================== HERO ==================== -->
-        <section class="panel panel--hero fade-in" id="hero">
-          <div class="code-window">
-            <div class="code-window__titlebar">
-              <i class="fa-regular fa-file-code"></i>
-              hero.js
-            </div>
-            <div class="code-window__body">
-              <div class="code-line"><span class="tok-comment">// Portfólio de João Matheus</span></div>
-              <div class="code-line"><span class="tok-plain">const</span> <span class="tok-var">dev</span> <span class="tok-plain">= {</span></div>
-              <div class="code-line code-line--indent">
-                <span class="tok-key">nome</span><span class="tok-plain">:</span> <span class="tok-string">"João Matheus"</span><span class="tok-plain">,</span>
-              </div>
-              <div class="code-line code-line--indent">
-                <span class="tok-key">papel</span><span class="tok-plain">:</span>
-                <span class="tok-string">"<span id="typingRole"></span><span class="cursor" aria-hidden="true">▍</span>"</span><span class="tok-plain">,</span>
-              </div>
-              <div class="code-line code-line--indent">
-                <span class="tok-key">formacao</span><span class="tok-plain">:</span> <span class="tok-string">"1º período — FIAP"</span><span class="tok-plain">,</span>
-              </div>
-              <div class="code-line code-line--indent">
-                <span class="tok-key">status</span><span class="tok-plain">:</span> <span class="tok-string">"aprendendo, construindo, evoluindo"</span>
-              </div>
-              <div class="code-line"><span class="tok-plain">};</span></div>
-            </div>
-          </div>
-
-          <p class="hero__description">
-            Estudante de Engenharia de Software na FIAP, no primeiro período,
-            direcionando meus estudos para o Desenvolvimento Frontend. Aprendo
-            escrevendo código de verdade — um componente, uma página, um bug
-            de cada vez.
-          </p>
-
-          <div class="hero__actions">
-            <a href="#projetos" class="btn btn--primary">
-              <span class="btn__prompt">&gt;</span> ver projetos
-            </a>
-            <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
-              <i class="fa-brands fa-github"></i> github
-            </a>
-            <a href="https://linkedin.com/in/seu-usuario" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
-              <i class="fa-brands fa-linkedin"></i> linkedin
-            </a>
-          </div>
-        </section>
-
-        <!-- ==================== SOBRE MIM ==================== -->
-        <section class="panel fade-in" id="sobre">
-          <p class="file-path">~/joao-matheus/sobre.md</p>
-          <h2 class="panel__title">Sobre mim</h2>
-
-          <div class="about__grid">
-            <div class="about__text">
-              <p>
-                Entrei na faculdade decidido a mudar de área: hoje curso o
-                <strong> 1º período de Engenharia de Software na FIAP</strong>,
-                com foco em <strong>Desenvolvimento Frontend</strong>. Gosto da
-                parte da profissão que fica entre o design e a lógica — pegar
-                uma ideia visual e fazer ela funcionar de verdade no navegador.
-              </p>
-              <p>
-                No dia a dia, estudo HTML, CSS e JavaScript e coloco a mão na
-                massa em projetos pequenos, mesmo os simples, porque é assim
-                que os conceitos realmente grudam. Ainda tenho muito chão pela
-                frente, mas prefiro aprender construindo do que só lendo sobre.
-              </p>
-              <p>
-                Estou aberto a oportunidades de estágio, projetos em conjunto
-                e qualquer troca que me ajude a evoluir mais rápido.
-              </p>
-            </div>
-
-            <ul class="about__facts">
-              <li>
-                <i class="fa-solid fa-graduation-cap"></i>
-                <div>
-                  <strong>Formação</strong>
-                  <span>1º período — FIAP</span>
-                </div>
-              </li>
-              <li>
-                <i class="fa-solid fa-code"></i>
-                <div>
-                  <strong>Foco</strong>
-                  <span>Desenvolvimento Frontend</span>
-                </div>
-              </li>
-              <li>
-                <i class="fa-solid fa-arrow-trend-up"></i>
-                <div>
-                  <strong>Jornada</strong>
-                  <span>Aprendizado contínuo, em público</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- ==================== TECNOLOGIAS ==================== -->
-        <section class="panel fade-in" id="tecnologias">
-          <p class="file-path">~/joao-matheus/tecnologias.json</p>
-          <h2 class="panel__title">Tecnologias</h2>
-
-          <div class="json-block">
-            <span class="tok-plain">{</span>
-            <div class="json-block__row">
-              <span class="tok-key">"linguagens"</span><span class="tok-plain">: [</span>
-            </div>
-
-            <div class="tech-grid">
-              <div class="tech-item">
-                <i class="fa-brands fa-html5" style="color:#e34f26;"></i>
-                <span>HTML5</span>
-              </div>
-              <div class="tech-item">
-                <i class="fa-brands fa-css3-alt" style="color:#2965f1;"></i>
-                <span>CSS3</span>
-              </div>
-              <div class="tech-item">
-                <i class="fa-brands fa-js" style="color:#f7df1e;"></i>
-                <span>JavaScript</span>
-              </div>
-            </div>
-
-            <div class="json-block__row"><span class="tok-plain">]</span></div>
-            <span class="tok-plain">}</span>
-          </div>
-        </section>
-
-        <!-- ==================== HABILIDADES ==================== -->
-        <section class="panel fade-in" id="habilidades">
-          <p class="file-path">~/joao-matheus/habilidades.css</p>
-          <h2 class="panel__title">Habilidades</h2>
-
-          <div class="skills-grid">
-            <div class="skill-rule">
-              <p class="skill-rule__selector">
-                <i class="fa-brands fa-html5" style="color:#e34f26;"></i>
-                .html
-              </p>
-              <p class="skill-rule__desc">
-                Estruturação semântica, formulários e boas práticas de marcação acessível.
-              </p>
-              <p class="skill-rule__bar" data-progress="70">
-                <span class="skill-rule__prop">proficiencia:</span>
-                <span class="skill-rule__value" data-bar></span>
-              </p>
-            </div>
-
-            <div class="skill-rule">
-              <p class="skill-rule__selector">
-                <i class="fa-brands fa-css3-alt" style="color:#2965f1;"></i>
-                .css
-              </p>
-              <p class="skill-rule__desc">
-                Layouts com Flexbox e Grid, variáveis, responsividade e animações.
-              </p>
-              <p class="skill-rule__bar" data-progress="60">
-                <span class="skill-rule__prop">proficiencia:</span>
-                <span class="skill-rule__value" data-bar></span>
-              </p>
-            </div>
-
-            <div class="skill-rule">
-              <p class="skill-rule__selector">
-                <i class="fa-brands fa-js" style="color:#f7df1e;"></i>
-                .javascript
-              </p>
-              <p class="skill-rule__desc">
-                Lógica de programação, manipulação do DOM e interatividade.
-              </p>
-              <p class="skill-rule__bar" data-progress="45">
-                <span class="skill-rule__prop">proficiencia:</span>
-                <span class="skill-rule__value" data-bar></span>
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== PROJETOS ==================== -->
-        <section class="panel fade-in" id="projetos">
-          <p class="file-path">~/joao-matheus/projetos/</p>
-          <h2 class="panel__title">Projetos</h2>
-          <p class="panel__subtitle">
-            Pasta em construção — os primeiros commits, com o tipo de projeto
-            que pretendo desenvolver enquanto avanço nos estudos.
-          </p>
-
-          <div class="projects-grid">
-            <article class="project-file">
-              <p class="project-file__name">
-                <i class="fa-regular fa-file-code"></i> todo-list.html
-              </p>
-              <h3>To-Do List Interativa</h3>
-              <p>
-                Organização de tarefas com adição, remoção e marcação de itens
-                concluídos, salvando os dados localmente.
-              </p>
-              <div class="project-file__tags">
-                <span>HTML</span><span>CSS</span><span>JavaScript</span>
-              </div>
-              <a href="#" class="project-file__link">
-                <i class="fa-brands fa-github"></i> ver no github
-              </a>
-            </article>
-
-            <article class="project-file">
-              <p class="project-file__name">
-                <i class="fa-regular fa-file-code"></i> previsao-tempo.js
-              </p>
-              <h3>App de Previsão do Tempo</h3>
-              <p>
-                Consome uma API pública para exibir a previsão do tempo de
-                qualquer cidade, com layout responsivo.
-              </p>
-              <div class="project-file__tags">
-                <span>HTML</span><span>CSS</span><span>API</span>
-              </div>
-              <a href="#" class="project-file__link">
-                <i class="fa-brands fa-github"></i> ver no github
-              </a>
-            </article>
-
-            <article class="project-file">
-              <p class="project-file__name">
-                <i class="fa-regular fa-file-code"></i> landing-page.css
-              </p>
-              <h3>Landing Page de Produto</h3>
-              <p>
-                Página de apresentação para um produto fictício, com foco em
-                conversão e animações suaves.
-              </p>
-              <div class="project-file__tags">
-                <span>HTML</span><span>CSS</span><span>JavaScript</span>
-              </div>
-              <a href="#" class="project-file__link">
-                <i class="fa-brands fa-github"></i> ver no github
-              </a>
-            </article>
-          </div>
-        </section>
-
-        <!-- ==================== CONTATO ==================== -->
-        <section class="panel fade-in" id="contato">
-          <p class="file-path">~/joao-matheus/contato.txt</p>
-          <h2 class="panel__title">Contato</h2>
-          <p class="panel__subtitle">
-            Estou aberto a oportunidades de estágio e trocas com quem também
-            está construindo na área. Fique à vontade para chamar.
-          </p>
-
-          <div class="contact-block">
-            <a href="mailto:seuemail@exemplo.com" class="contact-row">
-              <i class="fa-solid fa-envelope"></i>
-              <span class="contact-row__label">email:</span>
-              <span class="contact-row__value">seuemail@exemplo.com</span>
-            </a>
-            <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer" class="contact-row">
-              <i class="fa-brands fa-github"></i>
-              <span class="contact-row__label">github:</span>
-              <span class="contact-row__value">github.com/Jmfeliciano2</span>
-            </a>
-            <a href="https://linkedin.com/in/seu-usuario" target="_blank" rel="noopener noreferrer" class="contact-row">
-              <i class="fa-brands fa-linkedin"></i>
-              <span class="contact-row__label">linkedin:</span>
-              <span class="contact-row__value">linkedin.com/in/seu-usuario</span>
-            </a>
-          </div>
-        </section>
-
-      </main>
-
-      <!-- ==================== RODAPÉ ==================== -->
-      <footer class="footer">
-        <p>// Desenvolvido por João Matheus · 2026</p>
-      </footer>
+      <a class="header-link" href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer">GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Abrir menu"><span></span><span></span></button>
     </div>
-  </div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
+      <a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="#stack">Stack</a><a href="#contato">Contato</a>
+    </nav>
+  </header>
 
-  <!-- ==================== BOTÃO VOLTAR AO TOPO ==================== -->
-  <button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
+  <main>
+    <section class="hero shell">
+      <div class="hero-kicker reveal"><span class="status-dot"></span> São Paulo, BR · Engenharia de Software — FIAP</div>
+      <h1 class="reveal">João Matheus<span class="accent-dot">.</span></h1>
+      <div class="hero-bottom reveal">
+        <p class="hero-role">Desenvolvedor Frontend.</p>
+        <p class="hero-copy">Desenvolvo experiências web com foco em estrutura, responsividade, clareza visual e uma implementação consistente do início ao fim.</p>
+      </div>
+      <div class="hero-actions reveal">
+        <a class="primary-link" href="#projetos">Ver projetos <span>↓</span></a>
+        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href="mailto:felicianomatheus265@gmail.com">E-mail ↗</a>
+      </div>
+      <div class="hero-index" aria-hidden="true">PORTFOLIO / 2026</div>
+    </section>
 
-  <script src="js/script.js"></script>
+    <section class="section shell" id="sobre">
+      <div class="section-label reveal"><span>01</span> Sobre</div>
+      <div class="about-layout">
+        <h2 class="section-title reveal">Tecnologia com<br>intenção e consistência.</h2>
+        <div class="about-copy reveal">
+          <p>Curso Engenharia de Software na FIAP e direciono minha atuação para desenvolvimento frontend, combinando formação acadêmica com projetos próprios e soluções desenvolvidas na prática.</p>
+          <p>Trabalho com HTML, CSS e JavaScript para criar interfaces bem estruturadas e responsivas, utilizando Git e GitHub para organizar e versionar o desenvolvimento. Valorizo decisões técnicas claras e código que seja simples de compreender e evoluir.</p>
+          <p>Busco desafios que ampliem meu repertório técnico, aproximem desenvolvimento e produto e me permitam colaborar com pessoas que valorizam qualidade, aprendizado contínuo e boas soluções.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell projects-section" id="projetos">
+      <div class="section-label reveal"><span>02</span> Projetos selecionados</div>
+
+      <article class="project project--first reveal">
+        <div class="project-number">01</div>
+        <div class="project-main">
+          <p class="project-meta">Aplicação web · HTML / CSS / JavaScript</p>
+          <h3>Cinelog</h3>
+          <p>Um diário de filmes para registrar títulos assistidos, notas e favoritos. O projeto explora organização de conteúdo, interação com a interface e uma experiência simples de catalogação.</p>
+          <a href="https://github.com/Jmfeliciano2/Cinelog" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+        </div>
+        <div class="project-aside">
+          <span>FOCO</span>
+          <p>Interface, organização e JavaScript no navegador.</p>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-number">02</div>
+        <div class="project-main">
+          <p class="project-meta">Projeto acadêmico · Arduino / C++</p>
+          <h3>AgroSat</h3>
+          <p>Estação agrícola para monitorar temperatura, umidade e luminosidade, com alertas voltados a pequenos produtores. Um exercício de integração entre lógica, sensores e contexto de uso.</p>
+          <a href="https://github.com/Jmfeliciano2/AgroSat" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+        </div>
+        <div class="project-aside">
+          <span>FOCO</span>
+          <p>Lógica, prototipação e solução aplicada.</p>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="project-number">03</div>
+        <div class="project-main">
+          <p class="project-meta">Website · HTML / CSS / JavaScript</p>
+          <h3>Vinheria Agnello</h3>
+          <p>Site responsivo para apresentar a vinheria, seu catálogo e canais de contato. O projeto trabalha composição visual, hierarquia de informação e adaptação para diferentes telas.</p>
+          <a href="https://github.com/Jmfeliciano2/vinheria-agnello" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+        </div>
+        <div class="project-aside">
+          <span>FOCO</span>
+          <p>Layout responsivo e apresentação de conteúdo.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section shell" id="stack">
+      <div class="section-label reveal"><span>03</span> Stack atual</div>
+      <div class="stack-layout">
+        <h2 class="section-title reveal">Stack direta.<br>Execução consistente.</h2>
+        <div class="stack-list reveal">
+          <div><span>01</span><strong>HTML5</strong><small>Semântica e estrutura</small></div>
+          <div><span>02</span><strong>CSS3</strong><small>Layout e responsividade</small></div>
+          <div><span>03</span><strong>JavaScript</strong><small>DOM e interatividade</small></div>
+          <div><span>04</span><strong>Git / GitHub</strong><small>Versionamento e projetos</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact shell" id="contato">
+      <div class="section-label reveal"><span>04</span> Contato</div>
+      <div class="contact-copy reveal">
+        <p>Estou aberto a oportunidades para desenvolver produtos, colaborar com equipes e transformar boas ideias em experiências digitais bem construídas.</p>
+        <a class="contact-email" href="mailto:felicianomatheus265@gmail.com">felicianomatheus265@gmail.com ↗</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span>↗</span></a>
+        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span>↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <span>© <span id="year"></span> João Matheus</span>
+    <span>Feito com HTML, CSS e JavaScript.</span>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

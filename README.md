@@ -1,24 +1,27 @@
-💻 Portfólio — João Matheus
+# Portfólio — João Matheus
 
-Portfólio pessoal desenvolvido para apresentar minha trajetória inicial como Desenvolvedor Frontend, meus projetos e minhas habilidades técnicas em constante evolução.
+Portfólio pessoal desenvolvido em HTML, CSS e JavaScript para apresentar minha formação, projetos e atuação em desenvolvimento frontend.
 
-🔗 Acesse o site: [https://seu-usuario.github.io/nome-do-repositorio/](https://jmfeliciano2.github.io/portifolio/)
+## Direção visual
 
-📌 Sobre o projeto
+A interface segue uma proposta editorial e minimalista: tipografia forte, poucas cores, quase nenhum efeito decorativo e foco no conteúdo e nos projetos.
 
-Sou estudante do 1º período da faculdade, em transição de carreira para a área de tecnologia, com foco em Desenvolvimento Frontend. Este portfólio foi criado para:
+## Tecnologias
 
-Apresentar quem eu sou e onde estou na minha jornada;
-Mostrar as tecnologias e habilidades que venho estudando;
-Reunir meus projetos práticos em um só lugar;
-Servir como cartão de visitas para recrutadores e para a comunidade dev.
-🚀 Tecnologias utilizadas
-HTML5 — estruturação semântica do conteúdo;
-CSS3 — estilização moderna, variáveis (custom properties), Flexbox, Grid, glassmorphism e animações;
-JavaScript (Vanilla) — interatividade, efeito de digitação, animações ao rolar a página (scroll reveal) e fundo animado de partículas em <canvas>.
+- HTML5
+- CSS3
+- JavaScript
+- Font Awesome
+- Google Fonts
 
-Nenhum framework ou biblioteca de UI foi utilizado (sem React, Vue, Bootstrap, etc.) — o objetivo é demonstrar domínio dos fundamentos da web.
+## Projetos apresentados
 
-🎯 Objetivo do projeto
+- Cinelog
+- AgroSat
+- Vinheria Agnello
 
-Consolidar meus conhecimentos de HTML, CSS e JavaScript construindo uma interface real, responsiva e com boa experiência de uso, ao mesmo tempo em que crio uma vitrine profissional para apresentar meu trabalho durante minha transição para a área de Frontend.
+## Contato
+
+- GitHub: Jmfeliciano2
+- LinkedIn: joaomatheusfeliciano
+- E-mail: felicianomatheus265@gmail.com
