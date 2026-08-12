@@ -1,53 +1,104 @@
+/* ============================================================
+   PORTFÓLIO — SCRIPT.JS
+   Índice:
+   1. Menu mobile (drawer)
+   2. Scrollspy — marca seção ativa na sidebar e na tab bar
+   3. Efeito de digitação no "papel" do hero
+   4. Fade-in ao rolar
+   5. Barras de habilidade estilo terminal ([■■■□□] 60%)
+   6. Botão "voltar ao topo"
+   ============================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initNavbar();
+  initDrawer();
+  initScrollSpy();
   initTypingEffect();
   initScrollReveal();
+  initSkillBars();
   initBackToTop();
-  initParticles();
 });
 
+/* ------------------------------------------------------------
+   1. MENU MOBILE (DRAWER)
+------------------------------------------------------------ */
+function initDrawer() {
+  const sidebar = document.getElementById("sidebar");
+  const toggle = document.getElementById("drawerToggle");
+  const closeBtn = document.getElementById("drawerClose");
+  const overlay = document.getElementById("drawerOverlay");
 
-function initNavbar() {
-  const navbar = document.getElementById("navbar");
-  const navToggle = document.getElementById("navToggle");
-  const navMenu = document.getElementById("navMenu");
+  function openDrawer() {
+    sidebar.classList.add("is-open");
+    overlay.classList.add("is-visible");
+    toggle.setAttribute("aria-expanded", "true");
+  }
 
-  const handleScroll = () => {
-    navbar.classList.toggle("is-scrolled", window.scrollY > 40);
-  };
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  handleScroll();
+  function closeDrawer() {
+    sidebar.classList.remove("is-open");
+    overlay.classList.remove("is-visible");
+    toggle.setAttribute("aria-expanded", "false");
+  }
 
-  navToggle.addEventListener("click", () => {
-    const isOpen = navMenu.classList.toggle("is-open");
-    navToggle.classList.toggle("is-active", isOpen);
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-  });
+  toggle.addEventListener("click", openDrawer);
+  closeBtn.addEventListener("click", closeDrawer);
+  overlay.addEventListener("click", closeDrawer);
 
-  navMenu.querySelectorAll(".navbar__link").forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("is-open");
-      navToggle.classList.remove("is-active");
-      navToggle.setAttribute("aria-expanded", "false");
-    });
+  // Fecha o menu ao navegar para uma seção (útil no mobile)
+  sidebar.querySelectorAll(".tree-item").forEach((link) => {
+    link.addEventListener("click", closeDrawer);
   });
 }
 
+/* ------------------------------------------------------------
+   2. SCROLLSPY — sincroniza sidebar + tab bar com a seção visível
+------------------------------------------------------------ */
+function initScrollSpy() {
+  const sections = document.querySelectorAll(".panel[id]");
+  const treeItems = document.querySelectorAll(".tree-item");
+  const tabs = document.querySelectorAll(".tab");
+
+  if (!sections.length) return;
+
+  const setActive = (id) => {
+    treeItems.forEach((item) => {
+      item.classList.toggle("is-active", item.dataset.target === id);
+    });
+    tabs.forEach((tab) => {
+      tab.classList.toggle("is-active", tab.dataset.target === id);
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    },
+    { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+/* ------------------------------------------------------------
+   3. EFEITO DE DIGITAÇÃO — valor de "papel" no objeto do hero
+------------------------------------------------------------ */
 function initTypingEffect() {
-  const target = document.getElementById("typing-text");
+  const target = document.getElementById("typingRole");
   if (!target) return;
 
   const phrases = [
     "Desenvolvedor Frontend",
-    "Estudante de Tecnologia",
+    "Estudante na FIAP",
     "Sempre Aprendendo",
   ];
 
-  const TYPING_SPEED = 90;
-  const DELETING_SPEED = 45;
-  const PAUSE_AFTER_TYPING = 1800;
-  const PAUSE_AFTER_DELETING = 400;
+  const TYPING_SPEED = 85;
+  const DELETING_SPEED = 40;
+  const PAUSE_AFTER_TYPING = 1700;
+  const PAUSE_AFTER_DELETING = 350;
 
   let phraseIndex = 0;
   let charIndex = 0;
@@ -83,56 +134,87 @@ function initTypingEffect() {
   tick();
 }
 
-
+/* ------------------------------------------------------------
+   4. FADE-IN AO ROLAR
+------------------------------------------------------------ */
 function initScrollReveal() {
   const fadeElements = document.querySelectorAll(".fade-in");
-  const skillBars = document.querySelectorAll(".skill-card__bar-fill");
 
   const observer = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-
         entry.target.classList.add("is-visible");
-
-        const bar = entry.target.querySelector(".skill-card__bar-fill");
-        if (bar) animateBar(bar);
-
         obs.unobserve(entry.target);
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0.12 }
   );
 
   fadeElements.forEach((el) => observer.observe(el));
-
-  skillBars.forEach((bar) => {
-    if (!bar.closest(".fade-in")) {
-      const barObserver = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              animateBar(entry.target);
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.3 }
-      );
-      barObserver.observe(bar);
-    }
-  });
 }
 
-function animateBar(bar) {
-  const progress = bar.getAttribute("data-progress") || "0";
-  requestAnimationFrame(() => {
-    bar.style.width = `${progress}%`;
+/* ------------------------------------------------------------
+   5. BARRAS DE HABILIDADE ESTILO TERMINAL
+   Renderiza algo como: [■■■■■■■□□□] 70%
+   e anima a contagem quando o card entra na tela.
+------------------------------------------------------------ */
+function initSkillBars() {
+  const bars = document.querySelectorAll(".skill-rule__bar[data-progress]");
+  if (!bars.length) return;
+
+  const TOTAL_SEGMENTS = 10;
+  const DURATION = 900; // ms
+
+  function renderBar(valueEl, progress) {
+    const filled = Math.round((progress / 100) * TOTAL_SEGMENTS);
+    const empty = TOTAL_SEGMENTS - filled;
+    valueEl.textContent = `[${"■".repeat(filled)}${"□".repeat(empty)}] ${progress}%`;
+  }
+
+  function animateBar(bar) {
+    const target = Number(bar.getAttribute("data-progress")) || 0;
+    const valueEl = bar.querySelector("[data-bar]");
+    if (!valueEl) return;
+
+    const start = performance.now();
+
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(1, elapsed / DURATION);
+      const current = Math.round(progress * target);
+      renderBar(valueEl, current);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateBar(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  bars.forEach((bar) => {
+    // Estado inicial (antes de animar) para quem tem JS desativado ou aguarda o scroll
+    const valueEl = bar.querySelector("[data-bar]");
+    if (valueEl) renderBar(valueEl, 0);
+    observer.observe(bar);
   });
 }
 
 /* ------------------------------------------------------------
-   4. BOTÃO "VOLTAR AO TOPO"
+   6. BOTÃO "VOLTAR AO TOPO"
 ------------------------------------------------------------ */
 function initBackToTop() {
   const button = document.getElementById("backToTop");
@@ -149,99 +231,4 @@ function initBackToTop() {
   button.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-}
-
-function initParticles() {
-  const canvas = document.getElementById("particles-canvas");
-  if (!canvas) return;
-
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-  if (prefersReducedMotion) return;
-
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-  let width, height;
-  let animationId;
-
-  const PARTICLE_COLOR = "rgba(140, 150, 255, 0.55)";
-  const LINE_COLOR = "rgba(140, 150, 255,";
-  const MAX_DISTANCE = 130;
-  const SPEED = 0.25;
-
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    const count = Math.min(90, Math.floor((width * height) / 16000));
-    particles = Array.from({ length: count }, createParticle);
-  }
-
-  function createParticle() {
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * SPEED,
-      vy: (Math.random() - 0.5) * SPEED,
-      radius: Math.random() * 1.6 + 0.6,
-    };
-  }
-
-  function update() {
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0 || p.x > width) p.vx *= -1;
-      if (p.y < 0 || p.y > height) p.vy *= -1;
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < MAX_DISTANCE) {
-          const opacity = 1 - distance / MAX_DISTANCE;
-          ctx.strokeStyle = `${LINE_COLOR} ${opacity * 0.25})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    ctx.fillStyle = PARTICLE_COLOR;
-    particles.forEach((p) => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  }
-
-  function loop() {
-    update();
-    draw();
-    animationId = requestAnimationFrame(loop);
-  }
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      cancelAnimationFrame(animationId);
-    } else {
-      loop();
-    }
-  });
-
-  window.addEventListener("resize", resize);
-
-  resize();
-  loop();
 }
