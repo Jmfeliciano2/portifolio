@@ -1,27 +1,33 @@
-# Portfólio — João Matheus
+# Portfólio - João Matheus
 
-Portfólio pessoal desenvolvido em HTML, CSS e JavaScript para apresentar minha formação, projetos e atuação em desenvolvimento frontend.
-
-## Direção visual
-
-A interface segue uma proposta editorial e minimalista: tipografia forte, poucas cores, quase nenhum efeito decorativo e foco no conteúdo e nos projetos.
+Portfólio pessoal desenvolvido para apresentar meus projetos,
+experiências e conhecimentos em tecnologia.
 
 ## Tecnologias
 
-- HTML5
-- CSS3
+- HTML
+- CSS
 - JavaScript
-- Font Awesome
-- Google Fonts
+- Node.js
 
-## Projetos apresentados
+## Backend
 
-- Cinelog
-- AgroSat
-- Vinheria Agnello
+O projeto utiliza Node.js para:
 
-## Contato
+- Servir o portfólio
+- Criar uma API de visitas
+- Registrar o número de acessos
+- Disponibilizar os dados para o frontend
 
-- GitHub: Jmfeliciano2
-- LinkedIn: joaomatheusfeliciano
-- E-mail: felicianomatheus265@gmail.com
+## API
+
+### Buscar número de visitas
+
+GET `/api/visitas`
+
+Exemplo:
+
+```json
+{
+  "visitas": 10
+}

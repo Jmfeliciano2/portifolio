@@ -37,3 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   items.forEach(item => observer.observe(item));
 });
+
+async function carregarVisitas() {
+
+  try {
+
+    const resposta = await fetch('/api/visitas');
+
+    const dados = await resposta.json();
+
+    document.getElementById('contador-visitas').textContent =
+      dados.visitas;
+
+  } catch (erro) {
+
+    console.error('Erro ao carregar visitas:', erro);
+
+  }
+
+}
+
+carregarVisitas();
