@@ -1,146 +1,496 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b0d0c" />
-  <meta name="description" content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP e desenvolvedor focado em experiências web responsivas e bem estruturadas." />
+
+  <meta name="description"
+    content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP e desenvolvedor focado em experiências web responsivas e bem estruturadas." />
+
   <title>João Matheus — Frontend Developer</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <header class="site-header" id="top">
+
     <div class="shell header-inner">
-      <a class="wordmark" href="#top" aria-label="Ir para o início">JM<span>.</span></a>
+
+      <a class="wordmark" href="#top" aria-label="Ir para o início">
+        JM<span>.</span>
+      </a>
+
       <nav class="desktop-nav" aria-label="Navegação principal">
         <a href="#sobre">Sobre</a>
         <a href="#projetos">Projetos</a>
         <a href="#stack">Stack</a>
         <a href="#contato">Contato</a>
       </nav>
-      <a class="header-link" href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer">GitHub <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Abrir menu"><span></span><span></span></button>
+
+      <a class="header-link" href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer">
+        GitHub
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav"
+        aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+      </button>
+
     </div>
+
     <nav class="mobile-nav" id="mobileNav" aria-label="Navegação mobile">
-      <a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="#stack">Stack</a><a href="#contato">Contato</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#stack">Stack</a>
+      <a href="#contato">Contato</a>
     </nav>
+
   </header>
 
+
   <main>
+
+    <!-- HERO -->
     <section class="hero shell">
-      <div class="hero-kicker reveal"><span class="status-dot"></span> São Paulo, BR · Engenharia de Software — FIAP</div>
-      <h1 class="reveal">João Matheus<span class="accent-dot">.</span></h1>
+
+      <div class="hero-kicker reveal">
+        <span class="status-dot"></span>
+        São Paulo, BR · Engenharia de Software — FIAP
+      </div>
+
+      <h1 class="reveal">
+        João Matheus<span class="accent-dot">.</span>
+      </h1>
+
       <div class="hero-bottom reveal">
-        <p class="hero-role">Desenvolvedor Frontend.</p>
-        <p class="hero-copy">Desenvolvo experiências web com foco em estrutura, responsividade, clareza visual e uma implementação consistente do início ao fim.</p>
+
+        <p class="hero-role">
+          Desenvolvedor Frontend.
+        </p>
+
+        <p class="hero-copy">
+          Desenvolvo experiências web com foco em estrutura,
+          responsividade, clareza visual e uma implementação
+          consistente do início ao fim.
+        </p>
+
       </div>
+
       <div class="hero-actions reveal">
-        <a class="primary-link" href="#projetos">Ver projetos <span>↓</span></a>
-        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-        <a href="mailto:felicianomatheus265@gmail.com">E-mail ↗</a>
+
+        <a class="primary-link" href="#projetos">
+          Ver projetos
+          <span>↓</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">
+          LinkedIn ↗
+        </a>
+
+        <a href="mailto:felicianomatheus265@gmail.com">
+          E-mail ↗
+        </a>
+
       </div>
-      <div class="hero-index" aria-hidden="true">PORTFOLIO / 2026</div>
+
+      <div class="hero-index" aria-hidden="true">
+        PORTFOLIO / 2026
+      </div>
+
     </section>
 
+
+    <!-- SOBRE -->
     <section class="section shell" id="sobre">
-      <div class="section-label reveal"><span>01</span> Sobre</div>
+
+      <div class="section-label reveal">
+        <span>01</span>
+        Sobre
+      </div>
+
       <div class="about-layout">
-        <h2 class="section-title reveal">Tecnologia com<br>intenção e consistência.</h2>
+
+        <h2 class="section-title reveal">
+          Tecnologia com<br>
+          intenção e consistência.
+        </h2>
+
         <div class="about-copy reveal">
-          <p>Curso Engenharia de Software na FIAP e direciono minha atuação para desenvolvimento frontend, combinando formação acadêmica com projetos próprios e soluções desenvolvidas na prática.</p>
-          <p>Trabalho com HTML, CSS e JavaScript para criar interfaces bem estruturadas e responsivas, utilizando Git e GitHub para organizar e versionar o desenvolvimento. Valorizo decisões técnicas claras e código que seja simples de compreender e evoluir.</p>
-          <p>Busco desafios que ampliem meu repertório técnico, aproximem desenvolvimento e produto e me permitam colaborar com pessoas que valorizam qualidade, aprendizado contínuo e boas soluções.</p>
+
+          <p>
+            Curso Engenharia de Software na FIAP e direciono
+            minha atuação para desenvolvimento frontend,
+            combinando formação acadêmica com projetos próprios
+            e soluções desenvolvidas na prática.
+          </p>
+
+          <p>
+            Trabalho com HTML, CSS e JavaScript para criar
+            interfaces bem estruturadas e responsivas,
+            utilizando Git e GitHub para organizar e versionar
+            o desenvolvimento. Valorizo decisões técnicas claras
+            e código que seja simples de compreender e evoluir.
+          </p>
+
+          <p>
+            Busco desafios que ampliem meu repertório técnico,
+            aproximem desenvolvimento e produto e me permitam
+            colaborar com pessoas que valorizam qualidade,
+            aprendizado contínuo e boas soluções.
+          </p>
+
         </div>
+
       </div>
+
     </section>
 
+
+    <!-- PROJETOS -->
     <section class="section shell projects-section" id="projetos">
-      <div class="section-label reveal"><span>02</span> Projetos selecionados</div>
 
+      <div class="section-label reveal">
+        <span>02</span>
+        Projetos selecionados
+      </div>
+
+
+      <!-- PROJETO 01 -->
       <article class="project project--first reveal">
-        <div class="project-number">01</div>
+
+        <div class="project-number">
+          01
+        </div>
+
         <div class="project-main">
-          <p class="project-meta">Aplicação web · HTML / CSS / JavaScript</p>
-          <h3>Cinelog</h3>
-          <p>Um diário de filmes para registrar títulos assistidos, notas e favoritos. O projeto explora organização de conteúdo, interação com a interface e uma experiência simples de catalogação.</p>
-          <a href="https://github.com/Jmfeliciano2/Cinelog" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+
+          <p class="project-meta">
+            Aplicação web · HTML / CSS / JavaScript
+          </p>
+
+          <h3>
+            Cinelog
+          </h3>
+
+          <p>
+            Um diário de filmes para registrar títulos assistidos,
+            notas e favoritos. O projeto explora organização de
+            conteúdo, interação com a interface e uma experiência
+            simples de catalogação.
+          </p>
+
+          <a href="https://github.com/Jmfeliciano2/Cinelog" target="_blank" rel="noopener noreferrer">
+            Abrir repositório ↗
+          </a>
+
         </div>
+
         <div class="project-aside">
+
           <span>FOCO</span>
-          <p>Interface, organização e JavaScript no navegador.</p>
+
+          <p>
+            Interface, organização e JavaScript no navegador.
+          </p>
+
         </div>
+
       </article>
 
+
+      <!-- PROJETO 02 -->
       <article class="project reveal">
-        <div class="project-number">02</div>
+
+        <div class="project-number">
+          02
+        </div>
+
         <div class="project-main">
-          <p class="project-meta">Projeto acadêmico · Arduino / C++</p>
-          <h3>AgroSat</h3>
-          <p>Estação agrícola para monitorar temperatura, umidade e luminosidade, com alertas voltados a pequenos produtores. Um exercício de integração entre lógica, sensores e contexto de uso.</p>
-          <a href="https://github.com/Jmfeliciano2/AgroSat" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+
+          <p class="project-meta">
+            Projeto acadêmico · Arduino / C++
+          </p>
+
+          <h3>
+            AgroSat
+          </h3>
+
+          <p>
+            Estação agrícola para monitorar temperatura,
+            umidade e luminosidade, com alertas voltados a
+            pequenos produtores. Um exercício de integração
+            entre lógica, sensores e contexto de uso.
+          </p>
+
+          <a href="https://github.com/Jmfeliciano2/AgroSat" target="_blank" rel="noopener noreferrer">
+            Abrir repositório ↗
+          </a>
+
         </div>
+
         <div class="project-aside">
+
           <span>FOCO</span>
-          <p>Lógica, prototipação e solução aplicada.</p>
+
+          <p>
+            Lógica, prototipação e solução aplicada.
+          </p>
+
         </div>
+
       </article>
 
+
+      <!-- PROJETO 03 -->
       <article class="project reveal">
-        <div class="project-number">03</div>
+
+        <div class="project-number">
+          03
+        </div>
+
         <div class="project-main">
-          <p class="project-meta">Website · HTML / CSS / JavaScript</p>
-          <h3>Vinheria Agnello</h3>
-          <p>Site responsivo para apresentar a vinheria,catálogo e canais de contato. O projeto trabalha composição visual, hierarquia de informação e adaptação para diferentes telas.</p>
-          <a href="https://github.com/Jmfeliciano2/vinheria-agnello" target="_blank" rel="noopener noreferrer">Abrir repositório ↗</a>
+
+          <p class="project-meta">
+            Website · HTML / CSS / JavaScript
+          </p>
+
+          <h3>
+            Vinheria Agnello
+          </h3>
+
+          <p>
+            Site responsivo para apresentar a vinheria,
+            catálogo e canais de contato. O projeto trabalha
+            composição visual, hierarquia de informação e
+            adaptação para diferentes telas.
+          </p>
+
+          <a href="https://github.com/Jmfeliciano2/vinheria-agnello" target="_blank" rel="noopener noreferrer">
+            Abrir repositório ↗
+          </a>
+
         </div>
+
         <div class="project-aside">
+
           <span>FOCO</span>
-          <p>Layout responsivo e apresentação de conteúdo.</p>
+
+          <p>
+            Layout responsivo e apresentação de conteúdo.
+          </p>
+
         </div>
+
       </article>
+
     </section>
 
+
+    <!-- STACK -->
     <section class="section shell" id="stack">
-      <div class="section-label reveal"><span>03</span> Stack atual</div>
-      <div class="stack-layout">
-        <h2 class="section-title reveal">Stack direta.<br>Execução consistente.</h2>
-        <div class="stack-list reveal">
-          <div><span>01</span><strong>HTML5</strong><small>Semântica e estrutura</small></div>
-          <div><span>02</span><strong>CSS3</strong><small>Layout e responsividade</small></div>
-          <div><span>03</span><strong>JavaScript</strong><small>DOM e interatividade</small></div>
-          <div><span>04</span><strong>Git / GitHub</strong><small>Versionamento e projetos</small></div>
-          <div><span>05</span><strong>Node.js</strong><small>Executa JavaScript fora do navegador</small></div>
-        </div>
+
+      <div class="section-label reveal">
+        <span>03</span>
+        Stack atual
       </div>
+
+      <div class="stack-layout">
+
+        <h2 class="section-title reveal">
+          Stack direta.<br>
+          Execução consistente.
+        </h2>
+
+        <div class="stack-list reveal">
+
+          <div>
+            <span>01</span>
+            <strong>HTML5</strong>
+            <small>Semântica e estrutura</small>
+          </div>
+
+          <div>
+            <span>02</span>
+            <strong>CSS3</strong>
+            <small>Layout e responsividade</small>
+          </div>
+
+          <div>
+            <span>03</span>
+            <strong>JavaScript</strong>
+            <small>DOM e interatividade</small>
+          </div>
+
+          <div>
+            <span>04</span>
+            <strong>Git / GitHub</strong>
+            <small>Versionamento e projetos</small>
+          </div>
+
+          <div>
+            <span>05</span>
+            <strong>Node.js</strong>
+            <small>
+              Executa JavaScript fora do navegador
+            </small>
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
 
+
+    <!-- CONTATO -->
     <section class="contact shell" id="contato">
-      <div class="section-label reveal"><span>04</span> Contato</div>
+
+      <div class="section-label reveal">
+        <span>04</span>
+        Contato
+      </div>
+
+
+      <!-- TEXTO -->
       <div class="contact-copy reveal">
-        <p>Estou aberto a oportunidades para desenvolver produtos, colaborar com equipes e transformar boas ideias em experiências digitais bem construídas.</p>
-        <a class="contact-email" href="mailto:felicianomatheus265@gmail.com">felicianomatheus265@gmail.com ↗</a>
+
+        <p>
+          Estou aberto a oportunidades para desenvolver
+          produtos, colaborar com equipes e transformar
+          boas ideias em experiências digitais bem construídas.
+        </p>
+
       </div>
+
+
+      <!-- LINKS -->
       <div class="contact-links reveal">
-        <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer"><span>GitHub</span><span>↗</span></a>
-        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><span>↗</span></a>
+
+        <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer">
+          <span>GitHub</span>
+          <span class="contact-arrow">↗</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">
+          <span>LinkedIn</span>
+          <span class="contact-arrow">↗</span>
+        </a>
+
+        <a href="mailto:felicianomatheus265@gmail.com">
+          <span>
+            felicianomatheus265@gmail.com
+          </span>
+          <span class="contact-arrow">↗</span>
+        </a>
+
       </div>
+
+
+      <!-- FORMULÁRIO -->
+      <div class="contato-formulario reveal">
+
+        <form id="form-contato">
+
+          <div class="campo-formulario">
+
+            <label for="nome">
+              NOME
+            </label>
+
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+
+          </div>
+
+
+          <div class="campo-formulario">
+
+            <label for="email">
+              E-MAIL
+            </label>
+
+            <input type="email" id="email" name="email" placeholder="Seu e-mail" required />
+
+          </div>
+
+
+          <div class="campo-formulario campo-mensagem">
+
+            <label for="mensagem">
+              MENSAGEM
+            </label>
+
+            <textarea id="mensagem" name="mensagem" placeholder="Digite sua mensagem" required></textarea>
+
+          </div>
+
+
+          <button type="submit" class="botao-enviar">
+            ENVIAR MENSAGEM
+            <span>↗</span>
+          </button>
+
+
+          <p id="resposta-contato"></p>
+
+        </form>
+
+      </div>
+
     </section>
+
   </main>
 
+
+  <!-- FOOTER -->
   <footer class="footer shell">
-    <span>© <span id="year"></span> João Matheus</span>
-    <span>Feito com HTML, CSS e JavaScript.</span>
+
+    <span>
+      © <span id="year"></span> João Matheus
+    </span>
+
+    <span>
+      Feito com HTML, CSS, JavaScript e Node.js.
+    </span>
+
   </footer>
 
-  <div class="contador-visitas">
-    👁️ <span id="contador-visitas">0</span> visitas
+
+  <!-- CONTADOR DE VISITAS -->
+  <div class="contador-visitas" aria-label="Contador de visitas">
+
+    <img src="images/olho.png" alt="Visualizações" />
+
+    <span id="contador-visitas">
+      0
+    </span>
+
+    <span>
+      visitas
+    </span>
+
   </div>
 
+
   <script src="script.js"></script>
+
 </body>
+
 </html>

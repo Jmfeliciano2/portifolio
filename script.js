@@ -58,3 +58,44 @@ async function carregarVisitas() {
 }
 
 carregarVisitas();
+
+const formulario = document.getElementById('form-contato');
+
+if (formulario) {
+
+  formulario.addEventListener('submit', async (evento) => {
+
+    evento.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const mensagem = document.getElementById('mensagem').value;
+
+    const resposta = await fetch('/api/contato', {
+
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify({
+        nome,
+        email,
+        mensagem
+      })
+
+    });
+
+    const dados = await resposta.json();
+
+    document.getElementById('resposta-contato').textContent =
+      dados.mensagem;
+
+    if (resposta.ok) {
+      formulario.reset();
+    }
+
+  });
+
+}
