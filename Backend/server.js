@@ -1,394 +1,97 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
 const db = require('./database');
 
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// ========================================
-// SERVIR ARQUIVOS
-// ========================================
+// Middlewares para permitir envio de JSON e dados de formulário
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-function servirArquivo(arquivo, tipo, res) {
+// Publicar apenas o frontend; o banco e os arquivos do backend são privados.
+const publicRoot = path.join(__dirname, '..');
+app.get('/', (req, res) => res.sendFile(path.join(publicRoot, 'index.html')));
+['index.html', 'style.css', 'script.js', 'favicon.svg'].forEach((file) => {
+  app.get(`/${file}`, (req, res) => res.sendFile(path.join(publicRoot, file)));
+});
+app.use('/images', express.static(path.join(publicRoot, 'images')));
 
-    const caminhoArquivo = path.join(
-        __dirname,
-        '..',
-        arquivo
-    );
-
-    fs.readFile(caminhoArquivo, (erro, dados) => {
-
-        if (erro) {
-
-            console.log(
-                'Erro ao carregar arquivo:',
-                arquivo
-            );
-
-            res.writeHead(404, {
-                'Content-Type': 'text/plain'
-            });
-
-            res.end('Arquivo não encontrado');
-
-            return;
-        }
-
-        res.writeHead(200, {
-            'Content-Type': tipo
-        });
-
-        res.end(dados);
-    });
-}
-
-
-// ========================================
-// CONTADOR DE VISITAS
-// ========================================
-
-function adicionarVisita() {
-
-    try {
-
-        const inserir = db.prepare(`
-            INSERT INTO visitas DEFAULT VALUES
-        `);
-
-        inserir.run();
-
-    } catch (erro) {
-
-        console.log(
-            'Erro ao registrar visita:',
-            erro
-        );
+// Rota para registrar uma nova visita ao acessar o site
+app.get('/api/visita', (req, res) => {
+  const sql = `INSERT INTO visitas DEFAULT VALUES`;
+  db.run(sql, function (err) {
+    if (err) {
+      console.error('Erro ao registrar visita:', err.message);
+      return res.status(500).json({ error: 'Erro ao registrar visita' });
     }
-}
-
-
-function obterVisitas(res) {
-
-    try {
-
-        const resultado = db.prepare(`
-            SELECT COUNT(*) AS visitas
-            FROM visitas
-        `).get();
-
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-
-        res.end(
-            JSON.stringify(resultado)
-        );
-
-    } catch (erro) {
-
-        console.log(
-            'Erro ao obter visitas:',
-            erro
-        );
-
-        res.writeHead(500, {
-            'Content-Type': 'application/json'
-        });
-
-        res.end(
-            JSON.stringify({
-                erro: 'Erro ao obter visitas'
-            })
-        );
-    }
-}
-
-
-// ========================================
-// RECEBER MENSAGEM DO FORMULÁRIO
-// ========================================
-
-function receberContato(req, res) {
-
-    let corpo = '';
-
-    req.on('data', (parte) => {
-
-        corpo += parte;
-
-    });
-
-
-    req.on('end', () => {
-
-        try {
-
-            const dados = JSON.parse(corpo);
-
-
-            // Verificar se todos os campos foram preenchidos
-
-            if (
-                !dados.nome ||
-                !dados.email ||
-                !dados.mensagem
-            ) {
-
-                res.writeHead(400, {
-                    'Content-Type': 'application/json'
-                });
-
-                res.end(
-                    JSON.stringify({
-                        mensagem: 'Preencha todos os campos.'
-                    })
-                );
-
-                return;
-            }
-
-
-            // Inserir mensagem no SQLite
-
-            const inserir = db.prepare(`
-                INSERT INTO mensagens (
-                    nome,
-                    email,
-                    mensagem
-                )
-                VALUES (?, ?, ?)
-            `);
-
-
-            inserir.run(
-                dados.nome,
-                dados.email,
-                dados.mensagem
-            );
-
-
-            // Resposta para o frontend
-
-            res.writeHead(201, {
-                'Content-Type': 'application/json'
-            });
-
-            res.end(
-                JSON.stringify({
-                    mensagem: 'Mensagem enviada com sucesso!'
-                })
-            );
-
-
-        } catch (erro) {
-
-            console.log(
-                'Erro ao salvar mensagem:',
-                erro
-            );
-
-
-            res.writeHead(500, {
-                'Content-Type': 'application/json'
-            });
-
-
-            res.end(
-                JSON.stringify({
-                    mensagem: 'Erro ao salvar mensagem.'
-                })
-            );
-        }
-
-    });
-}
-
-
-// ========================================
-// OBTER TODAS AS MENSAGENS
-// ========================================
-
-function obterMensagens(res) {
-
-    try {
-
-        const mensagens = db.prepare(`
-            SELECT
-                id,
-                nome,
-                email,
-                mensagem,
-                data
-            FROM mensagens
-            ORDER BY id DESC
-        `).all();
-
-
-        res.writeHead(200, {
-            'Content-Type': 'application/json'
-        });
-
-
-        res.end(
-            JSON.stringify(mensagens)
-        );
-
-
-    } catch (erro) {
-
-        console.log(
-            'Erro ao obter mensagens:',
-            erro
-        );
-
-
-        res.writeHead(500, {
-            'Content-Type': 'application/json'
-        });
-
-
-        res.end(
-            JSON.stringify({
-                erro: 'Erro ao obter mensagens'
-            })
-        );
-    }
-}
-
-
-// ========================================
-// SERVIDOR
-// ========================================
-
-const server = http.createServer((req, res) => {
-
-
-    // ====================================
-    // PÁGINA PRINCIPAL
-    // ====================================
-
-    if (
-        req.url === '/' &&
-        req.method === 'GET'
-    ) {
-
-        adicionarVisita();
-
-        servirArquivo(
-            'index.html',
-            'text/html',
-            res
-        );
-
-
-        // ====================================
-        // CSS
-        // ====================================
-
-    } else if (
-        req.url === '/style.css' &&
-        req.method === 'GET'
-    ) {
-
-        servirArquivo(
-            'style.css',
-            'text/css',
-            res
-        );
-
-
-        // ====================================
-        // JAVASCRIPT
-        // ====================================
-
-    } else if (
-        req.url === '/script.js' &&
-        req.method === 'GET'
-    ) {
-
-        servirArquivo(
-            'script.js',
-            'text/javascript',
-            res
-        );
-
-
-        // ====================================
-        // IMAGEM DO OLHO
-        // ====================================
-
-    } else if (
-        req.url === '/images/olho.png' &&
-        req.method === 'GET'
-    ) {
-
-        servirArquivo(
-            'images/olho.png',
-            'image/png',
-            res
-        );
-
-
-        // ====================================
-        // API - VISITAS
-        // ====================================
-
-    } else if (
-        req.url === '/api/visitas' &&
-        req.method === 'GET'
-    ) {
-
-        obterVisitas(res);
-
-
-        // ====================================
-        // API - CONTATO
-        // ====================================
-
-    } else if (
-        req.url === '/api/contato' &&
-        req.method === 'POST'
-    ) {
-
-        receberContato(req, res);
-
-
-        // ====================================
-        // API - MENSAGENS
-        // ====================================
-
-    } else if (
-        req.url === '/api/mensagens' &&
-        req.method === 'GET'
-    ) {
-
-        obterMensagens(res);
-
-
-        // ====================================
-        // ROTA NÃO ENCONTRADA
-        // ====================================
-
-    } else {
-
-        res.writeHead(404, {
-            'Content-Type': 'text/plain'
-        });
-
-        res.end('Página não encontrada');
-    }
-
+    res.json({ message: 'Visita registrada com sucesso!', id: this.lastID });
+  });
 });
 
+// Rota para buscar o total de visitas (opcional para o dashboard)
+app.get('/api/visitas', (req, res) => {
+  const sql = `SELECT COUNT(*) AS total FROM visitas`;
+  db.get(sql, [], (err, row) => {
+    if (err) {
+      console.error('Erro ao buscar visitas:', err.message);
+      return res.status(500).json({ error: 'Erro ao buscar visitas' });
+    }
+    res.json({ totalVisitas: row ? row.total : 0 });
+  });
+});
 
-// ========================================
-// INICIAR SERVIDOR
-// ========================================
+// Rota para salvar mensagens enviadas pelo formulário de contato
+app.post('/api/mensagens', (req, res) => {
+  const body = req.body || {};
+  const fields = ['nome', 'email', 'mensagem'];
+  if (fields.some((field) => typeof body[field] !== 'string' || !body[field].trim())) {
+    return res.status(400).json({ error: 'Por favor, preencha todos os campos.' });
+  }
+  const [nome, email, mensagem] = fields.map((field) => body[field].trim());
 
-server.listen(3000, () => {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Informe um e-mail válido.' });
+  }
 
-    console.log(
-        'Portfólio rodando em http://localhost:3000'
-    );
+  const sql = `INSERT INTO mensagens (nome, email, mensagem) VALUES (?, ?, ?)`;
+  db.run(sql, [nome, email, mensagem], function (err) {
+    if (err) {
+      console.error('Erro ao salvar mensagem:', err.message);
+      return res.status(500).json({ error: 'Erro ao salvar mensagem no banco de dados' });
+    }
 
+    res.status(201).json({
+      message: 'Mensagem enviada com sucesso!',
+      id: this.lastID
+    });
+  });
+});
+
+// Rota para listar todas as mensagens recebidas
+app.get('/api/mensagens', (req, res) => {
+  const sql = `SELECT * FROM mensagens ORDER BY data_envio DESC`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      console.error('Erro ao buscar mensagens:', err.message);
+      return res.status(500).json({ error: 'Erro ao buscar mensagens' });
+    }
+    res.json(rows);
+  });
+});
+
+// Aceitar requisições somente após a criação das duas tabelas.
+db.ready.then(() => {
+  app.listen(PORT, (error) => {
+    if (error) {
+      console.error(`Não foi possível iniciar na porta ${PORT}:`, error.message);
+      db.close();
+      process.exitCode = 1;
+      return;
+    }
+    console.log(`Portfólio rodando em http://localhost:${PORT}`);
+  });
+}).catch((error) => {
+  console.error('Não foi possível inicializar o banco de dados:', error.message);
+  process.exitCode = 1;
 });

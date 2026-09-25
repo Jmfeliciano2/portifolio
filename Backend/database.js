@@ -1,34 +1,34 @@
-const Database = require('better-sqlite3');
+const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const caminhoBanco = path.join(
-    __dirname,
-    '..',
-    'data',
-    'portfolio.db'
-);
-
-const db = new Database(caminhoBanco);
-
-// Criar tabela de mensagens
-db.exec(`
-    CREATE TABLE IF NOT EXISTS mensagens (
+// DATABASE_PATH permite testar sem alterar o banco real do portfólio.
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'database.sqlite');
+let db;
+const ready = new Promise((resolve, reject) => {
+  db = new sqlite3.Database(dbPath, (error) => {
+    if (error) return reject(error);
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS visitas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data_visita DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE TABLE IF NOT EXISTS mensagens (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         email TEXT NOT NULL,
         mensagem TEXT NOT NULL,
-        data DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
+        data_envio DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `, (error) => {
+      if (error) {
+        db.close(() => reject(error));
+        return;
+      }
+      resolve();
+    });
+  });
+});
 
-// Criar tabela de visitas
-db.exec(`
-    CREATE TABLE IF NOT EXISTS visitas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        data DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
-
-console.log('Banco SQLite conectado.');
-
+// Mantém a interface db.run/get/all usada nas rotas.
+db.ready = ready;
 module.exports = db;
