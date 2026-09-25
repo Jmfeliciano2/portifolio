@@ -1,101 +1,111 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.getElementById("menuToggle");
-  const mobileNav = document.getElementById("mobileNav");
-  const year = document.getElementById("year");
+document.addEventListener('DOMContentLoaded', () => {
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 
-  year.textContent = new Date().getFullYear();
-
-  toggle?.addEventListener("click", () => {
-    const open = mobileNav.classList.toggle("is-open");
-    toggle.classList.toggle("is-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
-  });
-
-  mobileNav?.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      mobileNav.classList.remove("is-open");
-      toggle.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Abrir menu");
+  const toggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (toggle && mobileNav) {
+    const setMenuOpen = (open) => {
+      mobileNav.classList.toggle('is-open', open);
+      toggle.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    };
+    toggle.addEventListener('click', () => {
+      setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
     });
-  });
-
-  const items = document.querySelectorAll(".reveal");
-  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    items.forEach(item => item.classList.add("is-visible"));
-    return;
+    mobileNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    });
   }
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      obs.unobserve(entry.target);
-    });
-  }, { threshold: 0.12 });
+  // O conteúdo fica visível por padrão, inclusive se o JavaScript não carregar.
+  const items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.remove('reveal-pending');
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0 });
+      items.forEach((item) => {
+        // Só anima os elementos que ainda estão abaixo da área visível.
+        if (item.getBoundingClientRect().top >= window.innerHeight) {
+          item.classList.add('reveal-pending');
+          observer.observe(item);
+        }
+      });
+    } catch (error) {
+      items.forEach((item) => item.classList.remove('reveal-pending'));
+      console.error('Erro ao iniciar animações:', error);
+    }
+  }
 
-  items.forEach(item => observer.observe(item));
+  carregarVisitas();
+
+  const form = document.getElementById('form-contato');
+  const status = document.getElementById('resposta-contato');
+  if (!form || !status) return;
+  const button = form.querySelector('button[type="submit"]');
+  let sending = false;
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (sending || !form.reportValidity()) return;
+    const payload = {
+      nome: form.elements.namedItem('nome').value.trim(),
+      email: form.elements.namedItem('email').value.trim(),
+      mensagem: form.elements.namedItem('mensagem').value.trim()
+    };
+    if (Object.values(payload).some((value) => !value)) {
+      status.textContent = 'Por favor, preencha todos os campos.';
+      return;
+    }
+
+    sending = true;
+    button.disabled = true;
+    form.setAttribute('aria-busy', 'true');
+    status.textContent = 'Enviando mensagem...';
+    try {
+      const response = await fetch('/api/mensagens', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Erro ao enviar mensagem.');
+      status.textContent = data.message || 'Mensagem enviada com sucesso!';
+      form.reset();
+    } catch (error) {
+      status.textContent = error instanceof TypeError || error instanceof SyntaxError
+        ? 'Não foi possível conectar ao servidor. Tente novamente pelo site em http://localhost:3000.'
+        : error.message;
+    } finally {
+      sending = false;
+      button.disabled = false;
+      form.removeAttribute('aria-busy');
+    }
+  });
 });
 
 async function carregarVisitas() {
-
+  const counter = document.getElementById('contador-visitas');
+  if (!counter) return;
   try {
-
-    const resposta = await fetch('/api/visitas');
-
-    const dados = await resposta.json();
-
-    document.getElementById('contador-visitas').textContent =
-      dados.visitas;
-
-  } catch (erro) {
-
-    console.error('Erro ao carregar visitas:', erro);
-
+    const registration = await fetch('/api/visita', { cache: 'no-store' });
+    if (!registration.ok) throw new Error('Erro ao registrar visita.');
+    const response = await fetch('/api/visitas', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Erro ao consultar visitas.');
+    const data = await response.json();
+    counter.textContent = data.totalVisitas;
+  } catch (error) {
+    counter.textContent = '—';
+    console.error('Erro ao carregar visitas:', error);
   }
-
-}
-
-carregarVisitas();
-
-const formulario = document.getElementById('form-contato');
-
-if (formulario) {
-
-  formulario.addEventListener('submit', async (evento) => {
-
-    evento.preventDefault();
-
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const mensagem = document.getElementById('mensagem').value;
-
-    const resposta = await fetch('/api/contato', {
-
-      method: 'POST',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify({
-        nome,
-        email,
-        mensagem
-      })
-
-    });
-
-    const dados = await resposta.json();
-
-    document.getElementById('resposta-contato').textContent =
-      dados.mensagem;
-
-    if (resposta.ok) {
-      formulario.reset();
-    }
-
-  });
-
 }

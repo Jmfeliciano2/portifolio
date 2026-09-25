@@ -15,9 +15,9 @@ O projeto foi construído com foco em design minimalista, responsividade e integ
 
 ### Backend
 - Node.js
-- HTTP Module
+- Express
 - SQLite
-- better-sqlite3
+- sqlite3
 
 ### Ferramentas
 - Git
@@ -49,12 +49,13 @@ O projeto foi construído com foco em design minimalista, responsividade e integ
 ```text
 portifolio/
 │
-├── backend/
+├── Backend/
 │   ├── server.js
-│   └── database.js
+│   ├── database.js
+│   └── database.sqlite (criado automaticamente)
 │
 ├── data/
-│   └── portfolio.db
+│   └── arquivos legados (não usados pela API)
 │
 ├── images/
 │   └── olho.png
@@ -81,14 +82,14 @@ O projeto utiliza SQLite com duas tabelas:
 | nome | TEXT |
 | email | TEXT |
 | mensagem | TEXT |
-| data | DATETIME |
+| data_envio | DATETIME |
 
 ### visitas
 
 | Campo | Tipo |
 |---------|--------|
 | id | INTEGER |
-| data | DATETIME |
+| data_visita | DATETIME |
 
 ---
 
@@ -104,7 +105,7 @@ Exemplo:
 
 ```json
 {
-  "visitas": 120
+  "totalVisitas": 120
 }
 ```
 
@@ -113,7 +114,7 @@ Exemplo:
 ### Enviar mensagem
 
 ```http
-POST /api/contato
+POST /api/mensagens
 ```
 
 Exemplo:
@@ -203,3 +204,14 @@ https://www.linkedin.com/in/joaomatheusfeliciano/
 
 E-mail:
 felicianomatheus265@gmail.com
+## Execução local e diagnóstico
+
+Use `npm start` e abra http://localhost:3000. O Live Server do VS Code e a abertura direta de `index.html` não executam a API Express.
+
+O servidor cria as tabelas `visitas` e `mensagens` antes de aceitar requisições. Não é necessário enviar a primeira mensagem para criar a tabela. Os dados existentes são preservados. No SQLite Viewer, abra `Backend/database.sqlite` e atualize a visualização; esse arquivo é binário e não deve ser editado como texto.
+
+O frontend registra uma visita por carregamento com `GET /api/visita`, consulta `GET /api/visitas` e envia o formulário para `POST /api/mensagens`. A confirmação de envio aparece abaixo do botão. Dados inválidos recebem HTTP 400 e mensagens salvas recebem HTTP 201.
+
+Para testes isolados, a variável `DATABASE_PATH` permite escolher outro banco; `PORT` permite mudar a porta. O padrão continua sendo `Backend/database.sqlite` e a porta 3000.
+
+`GET /api/mensagens` continua disponível para consulta local, sem autenticação. Antes de publicar o projeto, proteja essa rota para que os dados de contato não fiquem públicos.

@@ -775,19 +775,19 @@ button {
 ========================================= */
 
 .reveal {
-  opacity: 0;
+  opacity: 1;
 
-  transform: translateY(16px);
+  transform: none;
 
   transition:
     opacity 0.65s ease,
     transform 0.65s ease;
 }
 
-.reveal.is-visible {
-  opacity: 1;
+.reveal.reveal-pending {
+  opacity: 0;
 
-  transform: none;
+  transform: translateY(16px);
 }
 
 
@@ -1090,7 +1090,8 @@ button {
     scroll-behavior: auto;
   }
 
-  .reveal {
+  .reveal,
+  .reveal.reveal-pending {
     opacity: 1;
 
     transform: none;

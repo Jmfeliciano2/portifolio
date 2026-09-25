@@ -407,7 +407,7 @@
       <!-- FORMULÁRIO -->
       <div class="contato-formulario reveal">
 
-        <form id="form-contato">
+        <form id="form-contato" action="/api/mensagens" method="post">
 
           <div class="campo-formulario">
 
@@ -448,7 +448,7 @@
           </button>
 
 
-          <p id="resposta-contato"></p>
+          <p id="resposta-contato" role="status" aria-live="polite"></p>
 
         </form>
 
