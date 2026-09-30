@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Administrativo | Portfólio</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div>
+            <span class="admin-label">PORTFÓLIO</span>
+            <h1>Painel Administrativo</h1>
+            <p>Gerencie os projetos exibidos no seu portfólio.</p>
+        </div>
+
+        <a href="/" class="btn-voltar">
+            Ver portfólio
+        </a>
+
+        <button type="button" id="btn-logout" class="btn-secondary">
+            Sair
+        </button>
+    </header>
+
+    <main class="admin-container">
+
+        <!-- FORMULÁRIO -->
+
+        <section class="admin-card">
+
+            <div class="section-header">
+                <div>
+                    <span class="section-label">PROJETOS</span>
+                    <h2 id="titulo-formulario">Cadastrar projeto</h2>
+                </div>
+            </div>
+
+            <form id="form-projeto">
+
+                <input type="hidden" id="projeto-id">
+
+                <div class="form-group">
+                    <label for="titulo">Título *</label>
+
+                    <input type="text" id="titulo" placeholder="Ex: Loja de Tênis" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição *</label>
+
+                    <textarea id="descricao" rows="5" placeholder="Descreva seu projeto..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tecnologias">Tecnologias *</label>
+
+                    <input type="text" id="tecnologias" placeholder="HTML, CSS, JavaScript, Node.js" required>
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="github_url">GitHub</label>
+
+                        <input type="url" id="github_url" placeholder="https://github.com/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="demo_url">Projeto online</label>
+
+                        <input type="url" id="demo_url" placeholder="https://...">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="imagem_url">Imagem</label>
+
+                    <input type="text" id="imagem_url" placeholder="images/projeto.png">
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit" class="btn-primary" id="btn-salvar">
+                        Cadastrar projeto
+                    </button>
+
+                    <button type="button" id="btn-cancelar" class="btn-secondary hidden">
+                        Cancelar edição
+                    </button>
+
+                </div>
+
+            </form>
+
+            <p id="mensagem-formulario"></p>
+
+        </section>
+
+
+        <!-- PROJETOS CADASTRADOS -->
+
+        <section class="admin-card">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">BANCO DE DADOS</span>
+                    <h2>Projetos cadastrados</h2>
+                </div>
+
+                <span id="contador-projetos">
+                    0 projetos
+                </span>
+
+            </div>
+
+            <div id="lista-projetos">
+
+                <p class="carregando">
+                    Carregando projetos...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

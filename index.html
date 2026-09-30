@@ -2,32 +2,37 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0d0c" />
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#0b0d0c">
 
   <meta name="description"
-    content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP e desenvolvedor focado em experiências web responsivas e bem estruturadas." />
+    content="Portfólio de João Matheus, estudante de Engenharia de Software na FIAP e desenvolvedor focado em experiências web responsivas e bem estruturadas.">
 
   <title>João Matheus — Frontend Developer</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    crossorigin="anonymous" referrerpolicy="no-referrer">
 
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
 
   <!-- HEADER -->
+
   <header class="site-header" id="top">
 
     <div class="shell header-inner">
@@ -69,15 +74,21 @@
   <main>
 
     <!-- HERO -->
+
     <section class="hero shell">
 
       <div class="hero-kicker reveal">
+
         <span class="status-dot"></span>
+
         São Paulo, BR · Engenharia de Software — FIAP
+
       </div>
 
       <h1 class="reveal">
+
         João Matheus<span class="accent-dot">.</span>
+
       </h1>
 
       <div class="hero-bottom reveal">
@@ -97,8 +108,11 @@
       <div class="hero-actions reveal">
 
         <a class="primary-link" href="#projetos">
+
           Ver projetos
+
           <span>↓</span>
+
         </a>
 
         <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">
@@ -119,11 +133,15 @@
 
 
     <!-- SOBRE -->
+
     <section class="section shell" id="sobre">
 
       <div class="section-label reveal">
+
         <span>01</span>
+
         Sobre
+
       </div>
 
       <div class="about-layout">
@@ -151,10 +169,10 @@
           </p>
 
           <p>
-            Busco desafios que ampliem meu repertório técnico,
-            aproximem desenvolvimento e produto e me permitam
-            colaborar com pessoas que valorizam qualidade,
-            aprendizado contínuo e boas soluções.
+            Atualmente também estou ampliando meus conhecimentos
+            em desenvolvimento backend com Node.js, Express,
+            APIs REST e bancos de dados, conectando frontend
+            e backend em aplicações completas.
           </p>
 
         </div>
@@ -165,151 +183,49 @@
 
 
     <!-- PROJETOS -->
+
     <section class="section shell projects-section" id="projetos">
 
       <div class="section-label reveal">
+
         <span>02</span>
+
         Projetos selecionados
+
       </div>
 
 
-      <!-- PROJETO 01 -->
-      <article class="project project--first reveal">
+      <!--
+        NÃO COLOCAMOS MAIS OS PROJETOS MANUALMENTE.
 
-        <div class="project-number">
-          01
-        </div>
+        O JavaScript consulta:
 
-        <div class="project-main">
+        GET /api/projetos
 
-          <p class="project-meta">
-            Aplicação web · HTML / CSS / JavaScript
-          </p>
+        e cria os projetos automaticamente.
+      -->
 
-          <h3>
-            Cinelog
-          </h3>
+      <div id="projetos-api">
 
-          <p>
-            Um diário de filmes para registrar títulos assistidos,
-            notas e favoritos. O projeto explora organização de
-            conteúdo, interação com a interface e uma experiência
-            simples de catalogação.
-          </p>
+        <p class="projetos-carregando">
+          Carregando projetos...
+        </p>
 
-          <a href="https://github.com/Jmfeliciano2/Cinelog" target="_blank" rel="noopener noreferrer">
-            Abrir repositório ↗
-          </a>
-
-        </div>
-
-        <div class="project-aside">
-
-          <span>FOCO</span>
-
-          <p>
-            Interface, organização e JavaScript no navegador.
-          </p>
-
-        </div>
-
-      </article>
-
-
-      <!-- PROJETO 02 -->
-      <article class="project reveal">
-
-        <div class="project-number">
-          02
-        </div>
-
-        <div class="project-main">
-
-          <p class="project-meta">
-            Projeto acadêmico · Arduino / C++
-          </p>
-
-          <h3>
-            AgroSat
-          </h3>
-
-          <p>
-            Estação agrícola para monitorar temperatura,
-            umidade e luminosidade, com alertas voltados a
-            pequenos produtores. Um exercício de integração
-            entre lógica, sensores e contexto de uso.
-          </p>
-
-          <a href="https://github.com/Jmfeliciano2/AgroSat" target="_blank" rel="noopener noreferrer">
-            Abrir repositório ↗
-          </a>
-
-        </div>
-
-        <div class="project-aside">
-
-          <span>FOCO</span>
-
-          <p>
-            Lógica, prototipação e solução aplicada.
-          </p>
-
-        </div>
-
-      </article>
-
-
-      <!-- PROJETO 03 -->
-      <article class="project reveal">
-
-        <div class="project-number">
-          03
-        </div>
-
-        <div class="project-main">
-
-          <p class="project-meta">
-            Website · HTML / CSS / JavaScript
-          </p>
-
-          <h3>
-            Vinheria Agnello
-          </h3>
-
-          <p>
-            Site responsivo para apresentar a vinheria,
-            catálogo e canais de contato. O projeto trabalha
-            composição visual, hierarquia de informação e
-            adaptação para diferentes telas.
-          </p>
-
-          <a href="https://github.com/Jmfeliciano2/vinheria-agnello" target="_blank" rel="noopener noreferrer">
-            Abrir repositório ↗
-          </a>
-
-        </div>
-
-        <div class="project-aside">
-
-          <span>FOCO</span>
-
-          <p>
-            Layout responsivo e apresentação de conteúdo.
-          </p>
-
-        </div>
-
-      </article>
+      </div>
 
     </section>
 
 
     <!-- STACK -->
+
     <section class="section shell" id="stack">
 
       <div class="section-label reveal">
+
         <span>03</span>
+
         Stack atual
+
       </div>
 
       <div class="stack-layout">
@@ -322,35 +238,93 @@
         <div class="stack-list reveal">
 
           <div>
+
             <span>01</span>
+
             <strong>HTML5</strong>
-            <small>Semântica e estrutura</small>
-          </div>
 
-          <div>
-            <span>02</span>
-            <strong>CSS3</strong>
-            <small>Layout e responsividade</small>
-          </div>
-
-          <div>
-            <span>03</span>
-            <strong>JavaScript</strong>
-            <small>DOM e interatividade</small>
-          </div>
-
-          <div>
-            <span>04</span>
-            <strong>Git / GitHub</strong>
-            <small>Versionamento e projetos</small>
-          </div>
-
-          <div>
-            <span>05</span>
-            <strong>Node.js</strong>
             <small>
-              Executa JavaScript fora do navegador
+              Semântica e estrutura
             </small>
+
+          </div>
+
+
+          <div>
+
+            <span>02</span>
+
+            <strong>CSS3</strong>
+
+            <small>
+              Layout e responsividade
+            </small>
+
+          </div>
+
+
+          <div>
+
+            <span>03</span>
+
+            <strong>JavaScript</strong>
+
+            <small>
+              DOM e interatividade
+            </small>
+
+          </div>
+
+
+          <div>
+
+            <span>04</span>
+
+            <strong>Git / GitHub</strong>
+
+            <small>
+              Versionamento e projetos
+            </small>
+
+          </div>
+
+
+          <div>
+
+            <span>05</span>
+
+            <strong>Node.js</strong>
+
+            <small>
+              Backend e JavaScript no servidor
+            </small>
+
+          </div>
+
+
+          <div>
+
+            <span>06</span>
+
+            <strong>Express</strong>
+
+            <small>
+              APIs REST e rotas
+            </small>
+
+          </div>
+
+
+          <div>
+
+            <span>07</span>
+
+            <strong>SQLite</strong>
+
+            <small>
+              Persistência de dados
+            </small>
+
           </div>
 
         </div>
@@ -361,15 +335,18 @@
 
 
     <!-- CONTATO -->
+
     <section class="contact shell" id="contato">
 
       <div class="section-label reveal">
+
         <span>04</span>
+
         Contato
+
       </div>
 
 
-      <!-- TEXTO -->
       <div class="contact-copy reveal">
 
         <p>
@@ -382,29 +359,42 @@
 
 
       <!-- LINKS -->
+
       <div class="contact-links reveal">
 
         <a href="https://github.com/Jmfeliciano2" target="_blank" rel="noopener noreferrer">
+
           <span>GitHub</span>
+
           <span class="contact-arrow">↗</span>
+
         </a>
+
 
         <a href="https://www.linkedin.com/in/joaomatheusfeliciano/" target="_blank" rel="noopener noreferrer">
+
           <span>LinkedIn</span>
+
           <span class="contact-arrow">↗</span>
+
         </a>
 
+
         <a href="mailto:felicianomatheus265@gmail.com">
+
           <span>
             felicianomatheus265@gmail.com
           </span>
+
           <span class="contact-arrow">↗</span>
+
         </a>
 
       </div>
 
 
       <!-- FORMULÁRIO -->
+
       <div class="contato-formulario reveal">
 
         <form id="form-contato" action="/api/mensagens" method="post">
@@ -415,7 +405,7 @@
               NOME
             </label>
 
-            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
 
           </div>
 
@@ -426,7 +416,7 @@
               E-MAIL
             </label>
 
-            <input type="email" id="email" name="email" placeholder="Seu e-mail" required />
+            <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
 
           </div>
 
@@ -443,8 +433,11 @@
 
 
           <button type="submit" class="botao-enviar">
+
             ENVIAR MENSAGEM
+
             <span>↗</span>
+
           </button>
 
 
@@ -460,6 +453,7 @@
 
 
   <!-- FOOTER -->
+
   <footer class="footer shell">
 
     <span>
@@ -474,9 +468,10 @@
 
 
   <!-- CONTADOR DE VISITAS -->
+
   <div class="contador-visitas" aria-label="Contador de visitas">
 
-    <img src="images/olho.png" alt="Visualizações" />
+    <img src="images/olho.png" alt="Visualizações">
 
     <span id="contador-visitas">
       0
