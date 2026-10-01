@@ -6,7 +6,7 @@ A aplicação une uma interface moderna, minimalista e responsiva no frontend co
 
 ---
 
-## 🚀 Tecnologias
+##  Tecnologias
 
 ### Frontend
 - **HTML5** (Semântica e acessibilidade)
@@ -28,7 +28,7 @@ A aplicação une uma interface moderna, minimalista e responsiva no frontend co
 
 ---
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
 - **Portfólio Responsivo:** Navegação fluida para desktop, tablets e smartphones, com menu mobile interativo e animações de scroll.
 - **Projetos Dinâmicos:** A vitrine pública consome a API REST (`GET /api/projetos`) em tempo real, eliminando dados estáticos no HTML.
@@ -51,7 +51,7 @@ A aplicação une uma interface moderna, minimalista e responsiva no frontend co
 
 ---
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```text
 portifolio/
@@ -92,7 +92,7 @@ portifolio/
 
 ---
 
-## 🗄️ Modelagem do Banco de Dados (SQLite)
+##  Modelagem do Banco de Dados (SQLite)
 
 O banco é criado e configurado automaticamente na primeira execução através do script `Backend/database.js`.
 
@@ -125,7 +125,7 @@ O banco é criado e configurado automaticamente na primeira execução através 
 
 ---
 
-## 🔌 Referência da API REST
+##  Referência da API REST
 
 ### Rotas Públicas
 
@@ -149,7 +149,7 @@ O banco é criado e configurado automaticamente na primeira execução através 
 
 ---
 
-## 🛠️ Como Executar Localmente
+##  Como Executar Localmente
 
 ### 1. Clonar o repositório
 ```bash
@@ -192,7 +192,7 @@ npm start
 
 ---
 
-## 🧪 Testes Automatizados
+## Testes Automatizados
 
 O projeto inclui uma suíte completa de testes de integração cobrindo 17 cenários (autenticação, CRUD, rotas protegidas, validações, casos de borda e sanitização).
 
@@ -205,7 +205,7 @@ Todos os testes validam o comportamento esperado dos endpoints HTTP e códigos d
 
 ---
 
-## 👤 Autor
+##  Autor
 
 **João Matheus**  
 - **GitHub:** [https://github.com/Jmfeliciano2](https://github.com/Jmfeliciano2)  
