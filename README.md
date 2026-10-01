@@ -1,217 +1,213 @@
-# João Matheus - Portfólio
+# Portfólio João Matheus
 
-Portfólio pessoal desenvolvido para apresentar meus projetos, habilidades e experiências na área de desenvolvimento de software.
+Portfólio pessoal e profissional desenvolvido para apresentar projetos, habilidades e experiências na área de desenvolvimento de software.
 
-O projeto foi construído com foco em design minimalista, responsividade e integração entre frontend e backend utilizando Node.js e SQLite.
+A aplicação une uma interface moderna, minimalista e responsiva no frontend com uma API REST completa, autenticação segura com JWT e bcrypt, e persistência de dados em SQLite no backend.
 
 ---
 
-## Tecnologias utilizadas
+## 🚀 Tecnologias
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript
+- **HTML5** (Semântica e acessibilidade)
+- **CSS3** (Design responsivo, variáveis CSS, grid e flexbox)
+- **JavaScript ES6+** (Manipulação do DOM, Fetch API assíncrona, eventos)
 
 ### Backend
-- Node.js
-- Express
-- SQLite
-- sqlite3
+- **Node.js** (Ambiente de execução)
+- **Express** (Framework HTTP e roteamento de APIs REST)
+- **CORS** (Controle de acesso de requisições cross-origin)
 
-### Ferramentas
-- Git
-- GitHub
+### Banco de Dados
+- **SQLite3** (Banco de dados relacional embutido e veloz)
+
+### Segurança
+- **bcryptjs** (Hash unidirecional com salt rounds para senhas administrativas)
+- **JSON Web Token (JWT)** (Autenticação Stateless com expiração automática de 2h para rotas protegidas)
+- **dotenv** (Isolamento de credenciais e variáveis de ambiente)
 
 ---
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-### Interface
-- Design responsivo
-- Menu mobile
-- Animações suaves
-- Seção de projetos
-- Seção de stack tecnológica
-- Seção de contato
-
-### Backend
-- Contador de visitas
-- Formulário de contato
-- API para mensagens
-- API para visitas
-- Armazenamento em banco de dados SQLite
+- **Portfólio Responsivo:** Navegação fluida para desktop, tablets e smartphones, com menu mobile interativo e animações de scroll.
+- **Projetos Dinâmicos:** A vitrine pública consome a API REST (`GET /api/projetos`) em tempo real, eliminando dados estáticos no HTML.
+- **CRUD Completo de Projetos:** Criação, visualização detalhada, atualização e remoção de projetos pelo painel administrativo.
+- **Painel Administrativo (`/admin.html`):**
+  - Gerenciamento simplificado de projetos em catálogo.
+  - Visualização de todas as mensagens recebidas de visitantes.
+  - Controle de logout e tratamento automático de sessões expiradas.
+- **Autenticação Segura (`/login.html`):**
+  - Verificação de e-mail e senha com hash bcrypt.
+  - Emissão de token JWT assinado para requisições autenticadas.
+  - Botão interativo para mostrar/ocultar senha e alertas didáticos contra colagem de hashes.
+- **Formulário de Contato:** Validação de formato de e-mail, sanitização contra campos vazios e gravação segura no SQLite.
+- **Contador de Visitas:** Registro automático de novos acessos e exibição do contador na página inicial.
+- **Segurança da Informação:**
+  - Consultas SQL 100% parametrizadas (`?`) contra SQL Injection.
+  - Rotas administrativas bloqueadas com middleware de autorização Bearer Token (HTTP 401 / 403).
+  - Bloqueio de download de arquivos confidenciais (`.env`, `database.sqlite`, `package.json`).
+  - Prevenção de XSS na renderização do DOM através de nós de texto seguros (`textContent`).
 
 ---
 
-## Estrutura do projeto
+## 📁 Estrutura do Projeto
 
 ```text
 portifolio/
-│
 ├── Backend/
-│   ├── server.js
-│   ├── database.js
-│   └── database.sqlite (criado automaticamente)
-│
-├── data/
-│   └── arquivos legados (não usados pela API)
-│
+│   ├── controllers/
+│   │   ├── mensagens.controller.js  # Regras de negócio de mensagens (envio e listagem)
+│   │   ├── projetos.controller.js   # CRUD completo e validações de projetos
+│   │   └── visitas.controller.js    # Registro e contagem de acessos
+│   ├── middleware/
+│   │   └── auth.middleware.js       # Middleware de validação do token JWT Bearer
+│   ├── routes/
+│   │   ├── auth.routes.js           # Rota de login (/api/auth/login)
+│   │   ├── mensagens.routes.js      # Rotas de mensagens (/api/mensagens)
+│   │   ├── projetos.routes.js       # Rotas de projetos (/api/projetos)
+│   │   └── visitas.routes.js        # Rotas de visitas (/api/visita e /api/visitas)
+│   ├── scripts/
+│   │   ├── gerar-hash.js            # Script utilitário para gerar hashes bcrypt
+│   │   └── executar-testes.js       # Suíte automatizada de testes de integração
+│   ├── database.js                  # Inicialização e schemas do SQLite
+│   ├── database.sqlite              # Arquivo de dados SQLite (ignorado no Git)
+│   └── server.js                    # Ponto de entrada do servidor Express
 ├── images/
-│   └── olho.png
-│
-├── index.html
-├── style.css
-├── script.js
-├── package.json
-├── package-lock.json
-└── README.md
+│   └── olho.png                     # Ícones e assets estáticos
+├── .env.example                     # Modelo documentado de variáveis de ambiente
+├── .gitignore                       # Arquivos e pastas excluídos do versionamento
+├── admin.css                        # Estilos do painel administrativo
+├── admin.html                       # Página do painel administrativo
+├── admin.js                         # Lógica do painel (consumo de APIs protegidas com JWT)
+├── favicon.svg                      # Favicon do site
+├── index.html                       # Página principal pública do portfólio
+├── login.html                       # Página de login do administrador
+├── login.js                         # Lógica de login e armazenamento do token
+├── package.json                     # Metadados e dependências do projeto
+├── README.md                        # Documentação do projeto
+├── script.js                        # Lógica da vitrine pública e envio de mensagens
+└── style.css                        # Estilos da página principal
 ```
 
 ---
 
-## Banco de Dados
+## 🗄️ Modelagem do Banco de Dados (SQLite)
 
-O projeto utiliza SQLite com duas tabelas:
+O banco é criado e configurado automaticamente na primeira execução através do script `Backend/database.js`.
 
-### mensagens
+### Tabela `projetos`
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `id` | INTEGER PRIMARY KEY AUTOINCREMENT | Identificador único do projeto |
+| `titulo` | TEXT NOT NULL | Título do projeto |
+| `descricao` | TEXT NOT NULL | Descrição detalhada |
+| `tecnologias` | TEXT NOT NULL | Lista de tecnologias (ex: Node.js, Express) |
+| `github_url` | TEXT | Link do repositório no GitHub (opcional) |
+| `demo_url` | TEXT | Link do projeto online / deploy (opcional) |
+| `imagem_url` | TEXT | Caminho da imagem de capa (opcional) |
+| `data_criacao` | DATETIME DEFAULT CURRENT_TIMESTAMP | Data e hora de criação |
 
-| Campo | Tipo |
-|---------|--------|
-| id | INTEGER |
-| nome | TEXT |
-| email | TEXT |
-| mensagem | TEXT |
-| data_envio | DATETIME |
+### Tabela `mensagens`
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `id` | INTEGER PRIMARY KEY AUTOINCREMENT | Identificador da mensagem |
+| `nome` | TEXT NOT NULL | Nome do remetente |
+| `email` | TEXT NOT NULL | E-mail de contato do remetente |
+| `mensagem` | TEXT NOT NULL | Conteúdo da mensagem |
+| `data_envio` | DATETIME DEFAULT CURRENT_TIMESTAMP | Data e hora do envio |
 
-### visitas
-
-| Campo | Tipo |
-|---------|--------|
-| id | INTEGER |
-| data_visita | DATETIME |
-
----
-
-## APIs
-
-### Obter número de visitas
-
-```http
-GET /api/visitas
-```
-
-Exemplo:
-
-```json
-{
-  "totalVisitas": 120
-}
-```
+### Tabela `visitas`
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `id` | INTEGER PRIMARY KEY AUTOINCREMENT | Identificador do acesso |
+| `data_visita` | DATETIME DEFAULT CURRENT_TIMESTAMP | Registro de data e hora da visita |
 
 ---
 
-### Enviar mensagem
+## 🔌 Referência da API REST
 
-```http
-POST /api/mensagens
-```
+### Rotas Públicas
 
-Exemplo:
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/projetos` | Retorna todos os projetos cadastrados em ordem decrescente |
+| `GET` | `/api/projetos/:id` | Retorna os dados de um projeto específico pelo seu ID |
+| `POST` | `/api/auth/login` | Autentica o administrador e devolve o JWT |
+| `POST` | `/api/mensagens` | Recebe mensagens de contato enviadas pelo portfólio |
+| `GET` | `/api/visita` | Registra um novo acesso ao site |
+| `GET` | `/api/visitas` | Retorna a quantidade total de visitas |
 
-```json
-{
-  "nome": "João",
-  "email": "email@teste.com",
-  "mensagem": "Olá!"
-}
-```
+### Rotas Protegidas (Requerem cabeçalho `Authorization: Bearer <TOKEN>`)
 
----
-
-### Listar mensagens
-
-```http
-GET /api/mensagens
-```
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `POST` | `/api/projetos` | Cadastra um novo projeto |
+| `PUT` | `/api/projetos/:id` | Atualiza as informações de um projeto existente |
+| `DELETE` | `/api/projetos/:id` | Remove um projeto do catálogo |
+| `GET` | `/api/mensagens` | Retorna todas as mensagens de contato enviadas por visitantes |
 
 ---
 
-## Como executar
+## 🛠️ Como Executar Localmente
 
-### Clonar o projeto
-
+### 1. Clonar o repositório
 ```bash
 git clone https://github.com/Jmfeliciano2/portifolio.git
-```
-
-Entrar na pasta:
-
-```bash
 cd portifolio
 ```
 
-Instalar dependências:
-
+### 2. Instalar as dependências
 ```bash
 npm install
 ```
 
-Iniciar servidor:
+### 3. Gerar a senha do administrador
+Execute o gerador de hash embutido passando a senha que deseja usar para login:
+```bash
+npm run gerar-hash "suaSenhaAqui"
+```
+O terminal exibirá a linha pronta com o hash bcrypt (ex: `$2b$10$...`).
 
+### 4. Configurar as variáveis de ambiente
+Crie um arquivo `.env` na raiz do projeto com base no `.env.example`:
+```env
+PORT=3000
+ADMIN_EMAIL=seu-email@exemplo.com
+ADMIN_PASSWORD_HASH=cole_aqui_o_hash_gerado_no_passo_anterior
+JWT_SECRET=coloque_aqui_uma_chave_secreta_longa_e_aleatoria
+```
+
+> **Atenção:** O arquivo `.env` contém credenciais e está listado no `.gitignore`. Nunca o envie para repositórios públicos.
+
+### 5. Iniciar o servidor
 ```bash
 npm start
 ```
 
-Abrir no navegador:
+### 6. Acessar no navegador
+- **Portfólio:** [http://localhost:3000](http://localhost:3000)
+- **Login Administrativo:** [http://localhost:3000/login.html](http://localhost:3000/login.html)
+- **Painel Administrativo:** [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
 
-```text
-http://localhost:3000
+---
+
+## 🧪 Testes Automatizados
+
+O projeto inclui uma suíte completa de testes de integração cobrindo 17 cenários (autenticação, CRUD, rotas protegidas, validações, casos de borda e sanitização).
+
+Com o servidor rodando, execute:
+```bash
+node Backend/scripts/executar-testes.js
 ```
 
----
-
-## Projetos em destaque
-
-### Cinelog
-Aplicação web para registro e organização de filmes assistidos.
-
-### AgroSat
-Projeto acadêmico para monitoramento agrícola utilizando sensores e Arduino.
-
-### Vinheria Agnello
-Website responsivo para apresentação institucional e catálogo.
+Todos os testes validam o comportamento esperado dos endpoints HTTP e códigos de status (200, 201, 400, 401, 403, 404).
 
 ---
 
-## Objetivos do projeto
+## 👤 Autor
 
-- Evoluir conhecimentos em frontend
-- Aplicar conceitos de backend com Node.js
-- Utilizar banco de dados SQLite
-- Trabalhar com APIs
-- Aprimorar organização de projetos
-
----
-
-## Contato
-
-GitHub:
-https://github.com/Jmfeliciano2
-
-LinkedIn:
-https://www.linkedin.com/in/joaomatheusfeliciano/
-
-E-mail:
-felicianomatheus265@gmail.com
-## Execução local e diagnóstico
-
-Use `npm start` e abra http://localhost:3000. O Live Server do VS Code e a abertura direta de `index.html` não executam a API Express.
-
-O servidor cria as tabelas `visitas` e `mensagens` antes de aceitar requisições. Não é necessário enviar a primeira mensagem para criar a tabela. Os dados existentes são preservados. No SQLite Viewer, abra `Backend/database.sqlite` e atualize a visualização; esse arquivo é binário e não deve ser editado como texto.
-
-O frontend registra uma visita por carregamento com `GET /api/visita`, consulta `GET /api/visitas` e envia o formulário para `POST /api/mensagens`. A confirmação de envio aparece abaixo do botão. Dados inválidos recebem HTTP 400 e mensagens salvas recebem HTTP 201.
-
-Para testes isolados, a variável `DATABASE_PATH` permite escolher outro banco; `PORT` permite mudar a porta. O padrão continua sendo `Backend/database.sqlite` e a porta 3000.
-
-`GET /api/mensagens` continua disponível para consulta local, sem autenticação. Antes de publicar o projeto, proteja essa rota para que os dados de contato não fiquem públicos.
+**João Matheus**  
+- **GitHub:** [https://github.com/Jmfeliciano2](https://github.com/Jmfeliciano2)  
+- **LinkedIn:** [https://www.linkedin.com/in/joaomatheusfeliciano/](https://www.linkedin.com/in/joaomatheusfeliciano/)  
+- **E-mail:** [felicianomatheus265@gmail.com](mailto:felicianomatheus265@gmail.com)  
