@@ -5,23 +5,31 @@ function autenticarAdmin(req, res, next) {
 
     if (!authorization) {
         return res.status(401).json({
-            error: 'Acesso não autorizado.'
+            error: 'Acesso não autorizado. Token não fornecido.'
         });
     }
 
-    const [tipo, token] = authorization.split(' ');
+    const partes = authorization.trim().split(/\s+/);
 
-    if (tipo !== 'Bearer' || !token) {
+    if (partes.length !== 2 || partes[0] !== 'Bearer' || !partes[1]) {
         return res.status(401).json({
-            error: 'Token inválido.'
+            error: 'Token inválido. Formato esperado: Bearer <token>'
         });
     }
+
+    const token = partes[1];
 
     try {
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET
         );
+
+        if (!decoded || decoded.role !== 'admin') {
+            return res.status(403).json({
+                error: 'Acesso negado. Permissão insuficiente.'
+            });
+        }
 
         req.admin = decoded;
 

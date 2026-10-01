@@ -5,592 +5,179 @@
 // Carrega o arquivo .env antes das outras configurações
 require('dotenv').config();
 
-
 // ========================================
 // IMPORTAÇÕES
 // ========================================
 
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const db = require('./database');
 
-// Rotas dos projetos
-const projetosRoutes = require('./routes/projetos.routes');
-
-// Rotas de autenticação
+// Rotas da aplicação
 const authRoutes = require('./routes/auth.routes');
-
+const projetosRoutes = require('./routes/projetos.routes');
+const mensagensRoutes = require('./routes/mensagens.routes');
+const visitasRoutes = require('./routes/visitas.routes');
 
 // ========================================
 // CONFIGURAÇÃO DO EXPRESS
 // ========================================
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
-
 
 // ========================================
 // VERIFICAÇÃO DAS VARIÁVEIS DE AMBIENTE
 // ========================================
 
 const variaveisObrigatorias = [
-  'ADMIN_EMAIL',
-  'ADMIN_PASSWORD_HASH',
-  'JWT_SECRET'
+    'ADMIN_EMAIL',
+    'ADMIN_PASSWORD_HASH',
+    'JWT_SECRET'
 ];
 
 const variaveisAusentes = variaveisObrigatorias.filter(
-  (variavel) => !process.env[variavel]
+    (variavel) => !process.env[variavel]
 );
 
 if (variaveisAusentes.length > 0) {
-  console.error(
-    'Variáveis obrigatórias ausentes no .env:',
-    variaveisAusentes.join(', ')
-  );
-
-  process.exit(1);
+    console.error('====================================================');
+    console.error('ERRO: Variáveis obrigatórias ausentes no .env:');
+    console.error(variaveisAusentes.join(', '));
+    console.error('\nCrie ou configure o arquivo .env baseado no .env.example:');
+    console.error('  ADMIN_EMAIL=...');
+    console.error('  ADMIN_PASSWORD_HASH=... (gerar com: npm run gerar-hash)');
+    console.error('  JWT_SECRET=...');
+    console.error('====================================================');
+    process.exit(1);
 }
 
-
 // ========================================
-// MIDDLEWARES
+// MIDDLEWARES GERAIS
 // ========================================
 
-// Permite receber JSON
+// Permite requisições Cross-Origin (CORS)
+app.use(cors());
+
+// Permite receber requisições com corpo JSON
 app.use(express.json());
 
-// Permite receber dados de formulário
-app.use(
-  express.urlencoded({
-    extended: true
-  })
-);
-
+// Permite receber dados de formulários tradicionais
+app.use(express.urlencoded({ extended: true }));
 
 // ========================================
-// ROTAS DA API
+// ROTAS DA API REST
 // ========================================
 
-// LOGIN
-//
+// Autenticação administrativa
 // POST /api/auth/login
+app.use('/api/auth', authRoutes);
 
-app.use(
-  '/api/auth',
-  authRoutes
-);
-
-
-// PROJETOS
-//
+// CRUD de projetos (GET público, POST/PUT/DELETE protegido com JWT)
 // GET    /api/projetos
 // GET    /api/projetos/:id
 // POST   /api/projetos
 // PUT    /api/projetos/:id
 // DELETE /api/projetos/:id
+app.use('/api/projetos', projetosRoutes);
 
-app.use(
-  '/api/projetos',
-  projetosRoutes
-);
+// Mensagens de contato (POST público, GET protegido com JWT)
+// POST /api/mensagens
+// GET  /api/mensagens
+app.use('/api/mensagens', mensagensRoutes);
 
+// Contador de visitas (público)
+// GET /api/visita
+// GET /api/visitas
+app.use('/api', visitasRoutes);
 
 // ========================================
-// FRONTEND
+// FRONTEND E ARQUIVOS PÚBLICOS
 // ========================================
 
-// Pasta raiz do portfólio.
-//
-// __dirname:
-// portifolio/Backend
-//
-// ..:
-// portifolio
+const publicRoot = path.join(__dirname, '..');
 
-const publicRoot = path.join(
-  __dirname,
-  '..'
-);
-
-
-// Página inicial
+// Página principal do portfólio
 app.get('/', (req, res) => {
-
-  res.sendFile(
-    path.join(
-      publicRoot,
-      'index.html'
-    )
-  );
-
+    res.sendFile(path.join(publicRoot, 'index.html'));
 });
 
-
-// ========================================
-// ARQUIVOS PÚBLICOS
-// ========================================
-
+// Arquivos estáticos permitidos de forma explícita por segurança
 const arquivosPublicos = [
-
-  'index.html',
-
-  'style.css',
-
-  'script.js',
-
-  'favicon.svg',
-
-  'admin.html',
-
-  'admin.css',
-
-  'admin.js',
-
-  'login.html',
-
-  'login.js',
-
-  'login.html',
-  
-  'login.js'
-
+    'index.html',
+    'style.css',
+    'script.js',
+    'favicon.svg',
+    'admin.html',
+    'admin.css',
+    'admin.js',
+    'login.html',
+    'login.js'
 ];
 
-
 arquivosPublicos.forEach((file) => {
-
-  app.get(`/${file}`, (req, res) => {
-
-    res.sendFile(
-      path.join(
-        publicRoot,
-        file
-      )
-    );
-
-  });
-
+    app.get(`/${file}`, (req, res) => {
+        res.sendFile(path.join(publicRoot, file));
+    });
 });
 
-
-// ========================================
-// IMAGENS
-// ========================================
-
+// Diretório de imagens estáticas
 app.use(
-  '/images',
-  express.static(
-    path.join(
-      publicRoot,
-      'images'
-    )
-  )
+    '/images',
+    express.static(path.join(publicRoot, 'images'))
 );
 
-
 // ========================================
-// VISITAS
-// ========================================
-
-// Registrar nova visita
-//
-// GET /api/visita
-
-app.get(
-  '/api/visita',
-  (req, res) => {
-
-    const sql = `
-      INSERT INTO visitas
-      DEFAULT VALUES
-    `;
-
-
-    db.run(
-      sql,
-      function (err) {
-
-        if (err) {
-
-          console.error(
-            'Erro ao registrar visita:',
-            err.message
-          );
-
-
-          return res
-            .status(500)
-            .json({
-              error:
-                'Erro ao registrar visita'
-            });
-
-        }
-
-
-        res.json({
-
-          message:
-            'Visita registrada com sucesso!',
-
-          id:
-            this.lastID
-
-        });
-
-      }
-    );
-
-  }
-);
-
-
-// ========================================
-// TOTAL DE VISITAS
-// ========================================
-//
-// GET /api/visitas
-
-app.get(
-  '/api/visitas',
-  (req, res) => {
-
-    const sql = `
-      SELECT COUNT(*) AS total
-      FROM visitas
-    `;
-
-
-    db.get(
-      sql,
-      [],
-      (err, row) => {
-
-        if (err) {
-
-          console.error(
-            'Erro ao buscar visitas:',
-            err.message
-          );
-
-
-          return res
-            .status(500)
-            .json({
-              error:
-                'Erro ao buscar visitas'
-            });
-
-        }
-
-
-        res.json({
-
-          totalVisitas:
-            row
-              ? row.total
-              : 0
-
-        });
-
-      }
-    );
-
-  }
-);
-
-
-// ========================================
-// MENSAGENS
-// ========================================
-//
-// POST /api/mensagens
-//
-// Salva uma mensagem enviada
-// pelo formulário do portfólio.
-
-app.post(
-  '/api/mensagens',
-  (req, res) => {
-
-    const body =
-      req.body || {};
-
-
-    const fields = [
-      'nome',
-      'email',
-      'mensagem'
-    ];
-
-
-    // Verifica campos vazios
-    if (
-      fields.some(
-        (field) =>
-          typeof body[field] !== 'string' ||
-          !body[field].trim()
-      )
-    ) {
-
-      return res
-        .status(400)
-        .json({
-
-          error:
-            'Por favor, preencha todos os campos.'
-
-        });
-
-    }
-
-
-    const [
-      nome,
-      email,
-      mensagem
-    ] = fields.map(
-      (field) =>
-        body[field].trim()
-    );
-
-
-    // ========================================
-    // VALIDAR E-MAIL
-    // ========================================
-
-    const emailValido =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-    if (
-      !emailValido.test(email)
-    ) {
-
-      return res
-        .status(400)
-        .json({
-
-          error:
-            'Informe um e-mail válido.'
-
-        });
-
-    }
-
-
-    // ========================================
-    // INSERIR NO SQLITE
-    // ========================================
-
-    const sql = `
-      INSERT INTO mensagens
-      (
-        nome,
-        email,
-        mensagem
-      )
-      VALUES (?, ?, ?)
-    `;
-
-
-    db.run(
-      sql,
-      [
-        nome,
-        email,
-        mensagem
-      ],
-      function (err) {
-
-        if (err) {
-
-          console.error(
-            'Erro ao salvar mensagem:',
-            err.message
-          );
-
-
-          return res
-            .status(500)
-            .json({
-
-              error:
-                'Erro ao salvar mensagem no banco de dados'
-
-            });
-
-        }
-
-
-        res
-          .status(201)
-          .json({
-
-            message:
-              'Mensagem enviada com sucesso!',
-
-            id:
-              this.lastID
-
-          });
-
-      }
-    );
-
-  }
-);
-
-
-// ========================================
-// LISTAR MENSAGENS
-// ========================================
-//
-// GET /api/mensagens
-
-app.get(
-  '/api/mensagens',
-  (req, res) => {
-
-    const sql = `
-      SELECT *
-      FROM mensagens
-      ORDER BY data_envio DESC
-    `;
-
-
-    db.all(
-      sql,
-      [],
-      (err, rows) => {
-
-        if (err) {
-
-          console.error(
-            'Erro ao buscar mensagens:',
-            err.message
-          );
-
-
-          return res
-            .status(500)
-            .json({
-
-              error:
-                'Erro ao buscar mensagens'
-
-            });
-
-        }
-
-
-        res.json(rows);
-
-      }
-    );
-
-  }
-);
-
-
-// ========================================
-// ROTA 404 PARA API
+// TRATAMENTO DE ROTAS NÃO ENCONTRADAS (404)
 // ========================================
 
-app.use(
-  '/api',
-  (req, res) => {
+// Rotas da API inexistentes retornam JSON
+app.use('/api', (req, res) => {
+    res.status(404).json({
+        error: 'Rota da API não encontrada.'
+    });
+});
 
-    res
-      .status(404)
-      .json({
-
-        error:
-          'Rota da API não encontrada.'
-
-      });
-
-  }
-);
-
+// Outras rotas desconhecidas
+app.use((req, res) => {
+    res.status(404).send('Página não encontrada.');
+});
 
 // ========================================
-// INICIAR SERVIDOR
+// INICIALIZAÇÃO DO SERVIDOR
 // ========================================
 
-// O servidor somente começa a aceitar
-// requisições depois que o SQLite estiver pronto.
-
+// Inicia somente após o SQLite estar conectado e com as tabelas criadas
 db.ready
-  .then(() => {
+    .then(() => {
+        const server = app.listen(PORT, () => {
+            console.log('======================================');
+            console.log('PORTFÓLIO - SERVIDOR ONLINE');
+            console.log('======================================');
+            console.log(`Site:   http://localhost:${PORT}`);
+            console.log(`Login:  http://localhost:${PORT}/login.html`);
+            console.log(`Admin:  http://localhost:${PORT}/admin.html`);
+            console.log(`API:    http://localhost:${PORT}/api/projetos`);
+            console.log('======================================');
+        });
 
-    app.listen(
-      PORT,
-      (error) => {
-
-        if (error) {
-
-          console.error(
-            `Não foi possível iniciar na porta ${PORT}:`,
+        server.on('error', (error) => {
+            if (error.code === 'EADDRINUSE') {
+                console.error(`\n[ERRO] A porta ${PORT} já está em uso por outro processo.`);
+                console.error(`Defina outra porta no .env (ex: PORT=3001) ou encerre o processo anterior.\n`);
+            } else {
+                console.error('Erro no servidor HTTP:', error.message);
+            }
+            db.close();
+            process.exit(1);
+        });
+    })
+    .catch((error) => {
+        console.error(
+            'Não foi possível inicializar o banco de dados:',
             error.message
-          );
-
-
-          db.close();
-
-          process.exitCode = 1;
-
-          return;
-
-        }
-
-
-        console.log(
-          '======================================'
         );
-
-        console.log(
-          'PORTFÓLIO INICIADO'
-        );
-
-        console.log(
-          '======================================'
-        );
-
-        console.log(
-          `Site: http://localhost:${PORT}`
-        );
-
-        console.log(
-          `Login: http://localhost:${PORT}/login.html`
-        );
-
-        console.log(
-          `Admin: http://localhost:${PORT}/admin.html`
-        );
-
-        console.log(
-          `API: http://localhost:${PORT}/api/projetos`
-        );
-
-        console.log(
-          '======================================'
-        );
-
-      }
-    );
-
-  })
-  .catch((error) => {
-
-    console.error(
-      'Não foi possível inicializar o banco de dados:',
-      error.message
-    );
-
-    process.exitCode = 1;
-
-  });
+        process.exit(1);
+    });

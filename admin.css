@@ -56,6 +56,10 @@ body {
     padding: 25px;
 }
 
+.admin-card-full {
+    grid-column: 1 / -1;
+}
+
 .section-header {
     display: flex;
     align-items: center;
@@ -183,7 +187,8 @@ button,
     margin-top: 15px;
 }
 
-#contador-projetos {
+#contador-projetos,
+#contador-mensagens {
     color: #8d94a3;
     font-size: 14px;
 }
@@ -201,6 +206,10 @@ button,
     color: #ff7474;
 }
 
+.mensagem-aviso {
+    color: #e5b95f;
+}
+
 .hidden {
     display: none;
 }
@@ -208,6 +217,64 @@ button,
 .carregando,
 .lista-vazia {
     color: #8d94a3;
+}
+
+/* LISTA DE MENSAGENS */
+
+.mensagem-item {
+    border-bottom: 1px solid #292d35;
+    padding: 18px 0;
+}
+
+.mensagem-item:first-child {
+    padding-top: 0;
+}
+
+.mensagem-item:last-child {
+    border-bottom: none;
+}
+
+.mensagem-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.mensagem-autor {
+    font-weight: bold;
+    color: #f5f5f5;
+    font-size: 16px;
+}
+
+.mensagem-email {
+    color: #8d94a3;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.mensagem-email:hover {
+    color: #f5f5f5;
+    text-decoration: underline;
+}
+
+.mensagem-data {
+    color: #636b7b;
+    font-size: 12px;
+}
+
+.mensagem-texto {
+    color: #c4c7cf;
+    line-height: 1.5;
+    margin-top: 8px;
+    white-space: pre-wrap;
+    background: #101216;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #252932;
+    font-size: 14px;
 }
 
 @media (max-width: 900px) {
@@ -272,4 +339,28 @@ button,
 #mensagem-login {
     min-height: 20px;
     margin-top: 18px;
+}
+
+.label-com-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.label-com-toggle label {
+    margin-bottom: 0;
+}
+
+.btn-toggle-senha {
+    background: transparent;
+    border: none;
+    color: #8d94a3;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-toggle-senha:hover {
+    color: #f5f5f5;
 }

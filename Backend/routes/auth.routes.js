@@ -6,108 +6,51 @@ const router = express.Router();
 
 router.post('/login', async (req, res) => {
     try {
-        const { email, senha } = req.body;
+        const { email, senha } = req.body || {};
 
-        if (!email || !senha) {
+        if (!email || !senha || typeof email !== 'string' || typeof senha !== 'string') {
             return res.status(400).json({
                 error: 'Informe e-mail e senha.'
             });
         }
 
-        // ========================================
-        // DIAGNÓSTICO
-        // ========================================
-
         const emailRecebido = email.trim().toLowerCase();
+        const emailConfigurado = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+        const hashConfigurado = (process.env.ADMIN_PASSWORD_HASH || '').trim();
 
-        const emailConfigurado =
-            process.env.ADMIN_EMAIL
-                ?.trim()
-                .toLowerCase();
+        if (!emailConfigurado || !hashConfigurado || !process.env.JWT_SECRET) {
+            console.error('Configuração de autenticação incompleta no servidor.');
+            return res.status(500).json({
+                error: 'Servidor não configurado para autenticação.'
+            });
+        }
 
-        console.log('\n===== TESTE DE LOGIN =====');
-
-        console.log(
-            'E-mails são iguais:',
-            emailRecebido === emailConfigurado
-        );
-
-        console.log(
-            'ADMIN_EMAIL existe:',
-            Boolean(process.env.ADMIN_EMAIL)
-        );
-
-        console.log(
-            'ADMIN_PASSWORD_HASH existe:',
-            Boolean(process.env.ADMIN_PASSWORD_HASH)
-        );
-
-        console.log(
-            'JWT_SECRET existe:',
-            Boolean(process.env.JWT_SECRET)
-        );
-
-        // ========================================
-        // VALIDAR EMAIL
-        // ========================================
-
+        // Validação do e-mail
         if (emailRecebido !== emailConfigurado) {
-
-            console.log(
-                'LOGIN NEGADO: e-mail diferente.'
-            );
-
             return res.status(401).json({
                 error: 'E-mail ou senha inválidos.'
             });
         }
 
-        // ========================================
-        // VALIDAR SENHA
-        // ========================================
-
-        const senhaCorreta =
-            await bcrypt.compare(
-                senha,
-                process.env.ADMIN_PASSWORD_HASH
-            );
-
-        console.log(
-            'Senha corresponde ao hash:',
-            senhaCorreta
-        );
+        // Validação da senha com bcrypt
+        const senhaCorreta = await bcrypt.compare(senha, hashConfigurado);
 
         if (!senhaCorreta) {
-
-            console.log(
-                'LOGIN NEGADO: senha não corresponde ao hash.'
-            );
-
             return res.status(401).json({
                 error: 'E-mail ou senha inválidos.'
             });
         }
 
-        // ========================================
-        // GERAR JWT
-        // ========================================
-
+        // Geração do token JWT
         const token = jwt.sign(
             {
-                role: 'admin'
+                role: 'admin',
+                email: emailConfigurado
             },
             process.env.JWT_SECRET,
             {
                 expiresIn: '2h'
             }
-        );
-
-        console.log(
-            'LOGIN REALIZADO COM SUCESSO.'
-        );
-
-        console.log(
-            '==========================\n'
         );
 
         return res.json({
@@ -116,12 +59,7 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (error) {
-
-        console.error(
-            'Erro no login:',
-            error
-        );
-
+        console.error('Erro no processamento do login:', error.message);
         return res.status(500).json({
             error: 'Erro interno do servidor.'
         });

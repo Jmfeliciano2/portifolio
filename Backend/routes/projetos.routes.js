@@ -1,61 +1,32 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
 const router = express.Router();
 
-router.post('/login', async (req, res) => {
-    try {
-        const { email, senha } = req.body;
+const projetosController = require('../controllers/projetos.controller');
+const autenticarAdmin = require('../middleware/auth.middleware');
 
-        if (!email || !senha) {
-            return res.status(400).json({
-                error: 'Informe e-mail e senha.'
-            });
-        }
+// ========================================
+// ROTAS PÚBLICAS
+// ========================================
 
-        const emailCorreto =
-            email === process.env.ADMIN_EMAIL;
+// GET /api/projetos - Lista todos os projetos
+router.get('/', projetosController.listarProjetos);
 
-        if (!emailCorreto) {
-            return res.status(401).json({
-                error: 'E-mail ou senha inválidos.'
-            });
-        }
+// GET /api/projetos/:id - Busca projeto por ID
+router.get('/:id', projetosController.buscarProjetoPorId);
 
-        const senhaCorreta = await bcrypt.compare(
-            senha,
-            process.env.ADMIN_PASSWORD_HASH
-        );
 
-        if (!senhaCorreta) {
-            return res.status(401).json({
-                error: 'E-mail ou senha inválidos.'
-            });
-        }
+// ========================================
+// ROTAS PROTEGIDAS (ADMIN)
+// Exigem cabeçalho Authorization: Bearer <token>
+// ========================================
 
-        const token = jwt.sign(
-            {
-                role: 'admin'
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: '2h'
-            }
-        );
+// POST /api/projetos - Cria novo projeto
+router.post('/', autenticarAdmin, projetosController.criarProjeto);
 
-        res.json({
-            message: 'Login realizado com sucesso.',
-            token
-        });
+// PUT /api/projetos/:id - Atualiza projeto existente
+router.put('/:id', autenticarAdmin, projetosController.atualizarProjeto);
 
-    } catch (error) {
-        console.error('Erro no login:', error);
-
-        res.status(500).json({
-            error: 'Erro interno do servidor.'
-        });
-    }
-});
+// DELETE /api/projetos/:id - Remove projeto existente
+router.delete('/:id', autenticarAdmin, projetosController.deletarProjeto);
 
 module.exports = router;

@@ -4,7 +4,8 @@
   "description": "",
   "main": "Backend/server.js",
   "scripts": {
-    "start": "node Backend/server.js"
+    "start": "node Backend/server.js",
+    "gerar-hash": "node Backend/scripts/gerar-hash.js"
   },
   "keywords": [],
   "author": "",
