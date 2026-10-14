@@ -1,0 +1,26 @@
+[
+    {
+        "titulo": "Melodia",
+        "descricao": "Landing page responsiva para o Melodia, um aplicativo fictício de streaming e descoberta musical. O projeto foi desenvolvido para o Check-point 05 de Front-end Design.",
+        "tecnologias": "HTML, CSS, JavaScript",
+        "github_url": "https://github.com/Jmfeliciano2/melodia-landing-page.git",
+        "demo_url": "",
+        "imagem_url": ""
+    },
+    {
+        "titulo": "Maison Della Moda Rigor",
+        "descricao": "Aplicação web profissional desenvolvida em React 19 e Vite, com estilização moderna via Tailwind CSS v4, focada na apresentação do acervo e agendamento de provas para locação de trajes finos e vestidos de noiva em São Paulo.",
+        "tecnologias": "React, Tailwind CSS, Oxlint",
+        "github_url": "https://github.com/Jmfeliciano2/Della-Moda.git",
+        "demo_url": "",
+        "imagem_url": ""
+    },
+    {
+        "titulo": "Supportflow-helpdesk",
+        "descricao": "Sistema de helpdesk para apoio ao atendimento e organização de demandas, com foco em suporte técnico e gestão de tickets.",
+        "tecnologias": "React, Vite, JavaScript, HTML5, CSS3, React Router DOM, Fetch API",
+        "github_url": "",
+        "demo_url": "",
+        "imagem_url": ""
+    }
+]
