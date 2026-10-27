@@ -1,3 +1,3 @@
 import {describe,it,expect} from 'vitest';
-function canAccess(session){return Boolean(session?.user?.id);}
-describe('proteção de dashboard',()=>{it('nega usuário sem sessão',()=>expect(canAccess(null)).toBe(false));it('aceita usuário autenticado',()=>expect(canAccess({user:{id:'1'}})).toBe(true));});
+import {hasAccess} from '../utils/auth.js';
+describe('bloqueio do dashboard',()=>{it('sem login retorna falso',()=>expect(hasAccess(null)).toBe(false));it('com usuário autenticado retorna verdadeiro',()=>expect(hasAccess({user:{id:'admin'}})).toBe(true));});
