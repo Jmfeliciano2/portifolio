@@ -50,10 +50,14 @@ CONTACT_FROM_EMAIL=
 ```text
 src/
   main.jsx                  # Entrada React
-  App.jsx                   # Rotas, páginas e componentes simples
-  Dashboard.jsx             # Dashboard carregado com React.lazy
-  styles.css                # Visual original adaptado ao React
-  services/github.js        # fetch GitHub + cache entre rotas
+  App.jsx                   # Rotas e tema
+  Dashboard.jsx             # Painel com React.lazy
+  styles.css                # Identidade visual
+  pages/                    # Home, Projects, ProjectDetails, Contact, Login, NotFound
+  components/               # ProjectCard, ProjectList, ContactForm, ProtectedRoute
+  hooks/useProjects.js      # Estados de carregamento/erro/dados
+  services/github.js        # fetch GitHub + cache
+  services/supabase.js      # Conexão e destaques
   utils/validation.js       # Validação formulário
   utils/auth.js             # Verificação de autenticação
   utils/*.test.js           # Testes automatizados
@@ -61,7 +65,8 @@ api/contact.js              # API serverless: salva mensagem e envia e-mail
 supabase/schema.sql         # Tabelas + políticas RLS
 public/favicon.svg          # Identidade original
 AGENTS.md                   # Instruções da IA versionadas
-CP3-PLANO.md                # Checklist e roteiro da entrevista
+CP3-PLANO.md                # Checklist e roteiro
+ROTEIRO-VIDEO-CP3.md        # Roteiro de apresentação
 vercel.json                 # Fallback de rotas no React Router
 ```
 
