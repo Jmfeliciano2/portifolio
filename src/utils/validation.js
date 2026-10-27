@@ -1,0 +1,1 @@
+export function validateContact(form){const errors={};if(!form.name?.trim())errors.name='Informe o nome.';if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email||''))errors.email='E-mail inválido.';if((form.message?.trim()||'').length<20)errors.message='Mensagem com no mínimo 20 caracteres.';return errors;}

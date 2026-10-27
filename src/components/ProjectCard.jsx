@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function ProjectCard({project}){return <article className="project"><small>{project.language||'JavaScript'} · Atualizado em {new Date(project.updated_at).toLocaleDateString('pt-BR')}</small><h3>{project.name.replace(/[-_]/g,' ')}</h3><p>{project.description||'Projeto de estudo e desenvolvimento de software.'}</p><div className="links"><Link className="button" to={'/projetos/'+encodeURIComponent(project.name)}>Ver detalhes →</Link><a href={project.html_url} target="_blank" rel="noreferrer">GitHub ↗</a></div></article>;}
