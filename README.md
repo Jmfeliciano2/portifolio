@@ -75,7 +75,7 @@ As rotas `/`, `/projetos`, `/projetos/:slug`, `/contato`, `/login`, `/dashboard`
 
 Prefixos: `feat:`, `fix:`, `docs:`, `test:`, `style:`, `refactor:`, `chore:`. Componentes React em PascalCase, funções em camelCase e hooks começam em `use`. Serviços externos separados dos elementos visuais quando possível. Há configuração de ESLint, Prettier, Husky e lint-staged (é preciso `npm install` para instalar hooks). Leia `AGENTS.md` para as instruções dadas à IA.
 
-**Harness proposto:** assistente Codex, regras no `AGENTS.md`, conector GitHub e revisão do estudante. Não alegue uso de agentes, skills ou MCPs adicionais sem de fato configurá-los e demonstrá-los.
+**Harness usado nesta etapa:** ChatGPT com modelo GPT-6, conector GitHub, regras versionadas em `AGENTS.md` e revisão do estudante. Codex é uma opção futura, mas não foi usado nesta etapa. Nenhum agente auxiliar ou skill de codificação adicional foi configurado.
 
 ## Testes e requisitos que precisam de comprovação
 
