@@ -19,10 +19,11 @@ Objetivo: migrar o portfólio existente de João Matheus para React sem abandona
 - Nunca afirmar que métricas Lighthouse ou e-mails funcionam sem testar.
 
 ## Harness
-Ferramenta: Codex ou outro assistente de código escolhido pelo aluno.
-Instruções: este AGENTS.md versionado.
-Conector: GitHub, para ler repositório, usar branches e PR.
-Agentes adicionais e skills: documentar somente os realmente configurados.
+Ferramenta usada nesta etapa: ChatGPT, modelo GPT-6, com conector GitHub.
+Instruções versionadas: este AGENTS.md.
+O conector GitHub foi usado para ler os arquivos, criar a branch feature/cp3-react, criar commits e abrir o Pull Request.
+Codex é uma opção para edições futuras, mas não deve ser apresentado como usado sem realmente utilizá-lo.
+Não foram configurados agentes auxiliares ou skills específicas de codificação neste repositório.
 O estudante deve revisar, entender e conseguir explicar cada alteração gerada pela IA.
 
 ## Segurança
