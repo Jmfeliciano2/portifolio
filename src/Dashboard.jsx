@@ -1,2 +1,81 @@
-import {useEffect,useState} from 'react';import {useNavigate} from 'react-router-dom';import {getProjects} from './services/github.js';
-export default function Dashboard({supabase}){const [messages,setMessages]=useState([]),[featured,setFeatured]=useState([]),[projects,setProjects]=useState([]),[loading,setLoading]=useState(true),[error,setError]=useState('');const navigate=useNavigate();async function refresh(){setLoading(true);const [m,f]=await Promise.all([supabase.from('messages').select('*').order('created_at',{ascending:false}),supabase.from('featured_projects').select('repo_name')]);setLoading(false);if(m.error||f.error){setError('Falha ao acessar mensagens ou destaques. Verifique permissões.');return;}setMessages(m.data||[]);setFeatured((f.data||[]).map(item=>item.repo_name));}useEffect(()=>{refresh();getProjects().then(setProjects).catch(e=>setError(e.message));},[]);async function reply(message){const {error:err}=await supabase.from('messages').update({replied:!message.replied}).eq('id',message.id);if(err)setError(err.message);else refresh();}async function highlight(name){const selected=featured.includes(name);const operation=selected?supabase.from('featured_projects').delete().eq('repo_name',name):supabase.from('featured_projects').insert({repo_name:name});const {error:err}=await operation;if(err)setError(err.message);else setFeatured(old=>selected?old.filter(item=>item!==name):[...old,name]);}async function logout(){await supabase.auth.signOut();navigate('/login',{replace:true});}return <main className="section shell page"><h1>Dashboard.</h1><button onClick={logout}>Sair</button><p role="alert">{error}</p><h2>Mensagens</h2>{loading?<p>Carregando mensagens…</p>:messages.length===0?<p>Nenhuma mensagem recebida.</p>:messages.map(item=><article className="project" key={item.id}><p><strong>{item.name}</strong> · <a href={'mailto:'+item.email}>{item.email}</a></p><p>{item.message}</p><small>{new Date(item.created_at).toLocaleString('pt-BR')}</small><button onClick={()=>reply(item)}>{item.replied?'✓ Respondida (desfazer)':'Marcar como respondida'}</button></article>)}<h2>Projetos em destaque</h2><p>Escolha os repositórios que aparecem na página inicial.</p>{projects.map(p=><label style={{display:'flex',alignItems:'center',gap:12,margin:'15px 0'}} key={p.id}><input type="checkbox" checked={featured.includes(p.name)} onChange={()=>highlight(p.name)}/>{p.name}</label>)}</main>;}
+import {useEffect,useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {getProjects} from './services/github.js';
+
+export default function Dashboard({supabase}){
+ const [messages,setMessages]=useState([]);
+ const [featured,setFeatured]=useState([]);
+ const [projects,setProjects]=useState([]);
+ const [loading,setLoading]=useState(true);
+ const [error,setError]=useState('');
+ const [saving,setSaving]=useState('');
+ const navigate=useNavigate();
+
+ async function refresh(){
+  setLoading(true);
+  setError('');
+  try{
+   const [messagesResult,featuredResult]=await Promise.all([
+    supabase.from('messages').select('*').order('created_at',{ascending:false}),
+    supabase.from('featured_projects').select('repo_name')
+   ]);
+   if(messagesResult.error)throw messagesResult.error;
+   if(featuredResult.error)throw featuredResult.error;
+   setMessages(messagesResult.data||[]);
+   setFeatured((featuredResult.data||[]).map(item=>item.repo_name));
+  }catch(err){setError('Falha ao acessar mensagens ou destaques. Verifique a configuração do Supabase.');}
+  finally{setLoading(false);}
+ }
+
+ useEffect(()=>{
+  let active=true;
+  refresh();
+  getProjects().then(data=>{if(active)setProjects(data);}).catch(()=>{if(active)setError('Não foi possível carregar os projetos do GitHub.');});
+  return()=>{active=false;};
+ },[]);
+
+ async function reply(message){
+  setSaving(String(message.id));setError('');
+  try{
+   const {error:err}=await supabase.from('messages').update({replied:!message.replied}).eq('id',message.id);
+   if(err)throw err;
+   await refresh();
+  }catch(err){setError('Não foi possível atualizar a mensagem.');}
+  finally{setSaving('');}
+ }
+
+ async function highlight(name){
+  setSaving(name);setError('');
+  const selected=featured.includes(name);
+  try{
+   const operation=selected
+    ?supabase.from('featured_projects').delete().eq('repo_name',name)
+    :supabase.from('featured_projects').insert({repo_name:name});
+   const {error:err}=await operation;
+   if(err)throw err;
+   setFeatured(old=>selected?old.filter(item=>item!==name):[...old,name]);
+  }catch(err){setError('Não foi possível salvar os destaques.');}
+  finally{setSaving('');}
+ }
+
+ async function logout(){await supabase.auth.signOut();navigate('/login',{replace:true});}
+
+ return <main className="section shell page">
+  <h1>Dashboard.</h1><button onClick={logout}>Sair</button>
+  <p role="alert">{error}</p>
+  <h2>Mensagens</h2>
+  {loading?<p>Carregando mensagens…</p>:messages.length===0?<p>Nenhuma mensagem recebida.</p>:messages.map(item=>
+   <article className="project" key={item.id}>
+    <p><strong>{item.name}</strong> · <a href={'mailto:'+item.email}>{item.email}</a></p>
+    <p>{item.message}</p><small>{new Date(item.created_at).toLocaleString('pt-BR')}</small>
+    <button disabled={saving===String(item.id)} onClick={()=>reply(item)}>{saving===String(item.id)?'Salvando…':item.replied?'✓ Respondida (desfazer)':'Marcar como respondida'}</button>
+   </article>
+  )}
+  <h2>Projetos em destaque</h2><p>Escolha os repositórios que aparecem na página inicial.</p>
+  {projects.length===0?<p>Nenhum projeto encontrado no GitHub.</p>:projects.map(project=>
+   <label style={{display:'flex',alignItems:'center',gap:12,margin:'15px 0'}} key={project.id}>
+    <input type="checkbox" disabled={saving===project.name} checked={featured.includes(project.name)} onChange={()=>highlight(project.name)}/>{project.name}
+   </label>
+  )}
+ </main>;
+}
