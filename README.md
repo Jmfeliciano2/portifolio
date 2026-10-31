@@ -23,7 +23,7 @@ Portfólio de João Matheus, estudante do **2º semestre de Engenharia de Softwa
 1. Instale Node.js 20.19 ou mais recente.
 2. Execute `npm install` na pasta do projeto.
 3. Copie `.env.example` para `.env.local`, preenchendo as duas variáveis `VITE_SUPABASE_*` com os valores **públicos** do seu Supabase.
-4. No SQL Editor do Supabase, execute `supabase/schema.sql`. Crie seu usuário do dashboard em **Authentication > Users** e desabilite cadastros públicos. As políticas do exemplo pressupõem apenas a conta administrativa autorizada.
+4. No SQL Editor do Supabase, crie primeiro seu usuário em **Authentication > Users**, copie o UUID e siga o comentário em `supabase/schema.sql` para cadastrá-lo em `admin_users`. Desabilite cadastros públicos. A rota do dashboard confere o login e a existência do UUID na tabela de administradores; as políticas RLS repetem essa autorização no banco.
 5. Rode `npm run dev`, abra o endereço indicado pelo Vite.
 6. Verifique: `npm test`, `npm run lint`, `npm run build`.
 
@@ -84,7 +84,7 @@ Prefixos: `feat:`, `fix:`, `docs:`, `test:`, `style:`, `refactor:`, `chore:`. Co
 
 ## Testes e requisitos que precisam de comprovação
 
-Há testes automáticos para validação do formulário e verificação de sessão. É necessário executar e comprovar os testes (não foram executados neste ambiente). O alvo **Lighthouse mobile ≥80** precisa ser medido após deploy real com Chrome Lighthouse ou PageSpeed Insights. Também precisam ser testados envio de e-mail com domínio verificado, persistência de mensagens, login, políticas RLS, atualização direta da rota por link e deploy a cada push na `main`.
+Há testes automáticos para validação do formulário e para a regra de autorização do dono (incluindo usuário sem login e usuário logado sem permissão). O GitHub Actions executa lint, testes e build em cada push na branch configurada. O alvo **Lighthouse mobile ≥80** precisa ser medido após deploy real com Chrome Lighthouse ou PageSpeed Insights. Também precisam ser testados envio de e-mail com domínio verificado, persistência de mensagens, login, políticas RLS, atualização direta da rota por link e deploy a cada push na `main`.
 
 ### Entrega até 03/11/2026
 
