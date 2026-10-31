@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react';
+import {useCallback,useEffect,useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {getProjects} from './services/github.js';
 
@@ -11,7 +11,7 @@ export default function Dashboard({supabase}){
  const [saving,setSaving]=useState('');
  const navigate=useNavigate();
 
- async function refresh(){
+ const refresh=useCallback(async()=>{
   setLoading(true);
   setError('');
   try{
@@ -23,16 +23,16 @@ export default function Dashboard({supabase}){
    if(featuredResult.error)throw featuredResult.error;
    setMessages(messagesResult.data||[]);
    setFeatured((featuredResult.data||[]).map(item=>item.repo_name));
-  }catch(err){setError('Falha ao acessar mensagens ou destaques. Verifique a configuração do Supabase.');}
+  }catch{setError('Falha ao acessar mensagens ou destaques. Verifique a configuração do Supabase.');}
   finally{setLoading(false);}
- }
+ },[supabase]);
 
  useEffect(()=>{
   let active=true;
   refresh();
   getProjects().then(data=>{if(active)setProjects(data);}).catch(()=>{if(active)setError('Não foi possível carregar os projetos do GitHub.');});
   return()=>{active=false;};
- },[]);
+ },[refresh]);
 
  async function reply(message){
   setSaving(String(message.id));setError('');
@@ -40,7 +40,7 @@ export default function Dashboard({supabase}){
    const {error:err}=await supabase.from('messages').update({replied:!message.replied}).eq('id',message.id);
    if(err)throw err;
    await refresh();
-  }catch(err){setError('Não foi possível atualizar a mensagem.');}
+  }catch{setError('Não foi possível atualizar a mensagem.');}
   finally{setSaving('');}
  }
 
@@ -54,7 +54,7 @@ export default function Dashboard({supabase}){
    const {error:err}=await operation;
    if(err)throw err;
    setFeatured(old=>selected?old.filter(item=>item!==name):[...old,name]);
-  }catch(err){setError('Não foi possível salvar os destaques.');}
+  }catch{setError('Não foi possível salvar os destaques.');}
   finally{setSaving('');}
  }
 
