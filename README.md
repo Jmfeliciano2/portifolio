@@ -1,172 +1,99 @@
-# Portfólio pessoal - João Matheus
+# João Matheus — Portfólio React (CP3 FIAP)
 
-Portfólio profissional criado para apresentar projetos, stack e experiências de desenvolvimento em uma interface moderna e responsiva.
-
-A aplicação combina frontend em HTML/CSS/JavaScript, backend em Node.js + Express e banco SQLite para armazenar projetos, mensagens e visitas. Além disso, o painel administrativo permite gerenciar os projetos cadastrados via API protegida por JWT.
-
----
-
-## Funcionalidades
-
-- Portfólio responsivo com layout moderno e navegação simples
-- Seção de projetos carregada dinamicamente pela API
-- Painel administrativo para criar, editar e excluir projetos
-- Registro de mensagens de contato
-- Contador de visitas
-- Autenticação com email, senha e JWT
-- Persistência em SQLite
-- Seed inicial de projetos para exibir itens padrão quando o banco está vazio
-
----
+Portfólio de João Matheus, estudante do **2º semestre de Engenharia de Software na FIAP**. A branch `feature/cp3-react` evolui o site original para React e Vite, usando JSX, componentes, hooks e APIs estudadas em aula, preservando o visual escuro com destaque laranja.
 
 ## Tecnologias
 
-### Frontend
-- HTML5
-- CSS3
-- JavaScript ES6+
+| Escolha                           | Motivo                                                   | Trade-off                                       |
+| --------------------------------- | -------------------------------------------------------- | ----------------------------------------------- |
+| React + Vite                      | Foco em JSX e componentes                                | Rotas de cliente precisam de fallback no deploy |
+| React Router                      | Organiza páginas e detalhes individuais                  | Não renderiza páginas no servidor               |
+| CSS puro                          | Preserva o estilo e usa conhecimentos estudados          | Mais regras manuais                             |
+| `fetch`, `useState` e `useEffect` | API nativa e conceitos das aulas                         | Cache simples em memória                        |
+| API pública do GitHub             | Lista repositórios reais sem cadastro fixo               | Sujeita a limite e indisponibilidade da API     |
+| Supabase Auth e Postgres          | Login e dados persistentes para a área administrativa    | Exige configurar projeto, variáveis e RLS       |
+| Vercel Function + Resend          | Salva mensagens no servidor e tenta notificar por e-mail | Requer credenciais e remetente verificado       |
+| Vitest                            | Testa validação, autorização e API                       | Não substitui testes completos em navegador     |
 
-### Backend
-- Node.js
-- Express
-- CORS
-- JWT
-- bcryptjs
+## Rodar localmente
 
-### Banco de dados
-- SQLite3
-
-### Infraestrutura
-- dotenv
-
----
-
-## Projetos incluídos por padrão
-
-Quando o banco de projetos está vazio, o sistema automaticamente carrega os itens cadastrados em [data/projetos.json](data/projetos.json). Isso garante que o portfólio já abra com os projetos principais já registrados.
-
-Inclui:
-- Melodia
-- Maison Della Moda Rigor
-- Supportflow-helpdesk
-
----
-
-## Estrutura do projeto
-
-```text
-portifolio/
-├── Backend/
-│   ├── controllers/
-│   │   ├── mensagens.controller.js
-│   │   ├── projetos.controller.js
-│   │   └── visitas.controller.js
-│   ├── middleware/
-│   │   └── auth.middleware.js
-│   ├── routes/
-│   │   ├── auth.routes.js
-│   │   ├── mensagens.routes.js
-│   │   ├── projetos.routes.js
-│   │   └── visitas.routes.js
-│   ├── scripts/
-│   │   ├── executar-testes.js
-│   │   └── gerar-hash.js
-│   ├── database.js
-│   ├── server.js
-│   └── database.sqlite
-├── data/
-│   ├── mensagens.json
-│   ├── mensagens.js
-│   └── projetos.json
-├── images/
-├── .env.example
-├── .gitignore
-├── admin.css
-├── admin.html
-├── admin.js
-├── favicon.svg
-├── index.html
-├── login.html
-├── login.js
-├── package.json
-├── README.md
-├── script.js
-├── style.css
-└── LICENSE
-```
-
----
-
-## Como executar localmente
-
-### 1. Instale as dependências
+Requer Node.js 20.19 ou mais recente.
 
 ```bash
 npm install
+npm run dev
 ```
 
-### 2. Crie o arquivo .env
+Abra o endereço mostrado pelo Vite. A aplicação pública e a listagem do GitHub funcionam sem variáveis locais. Para habilitar o login/dashboard, copie `.env.example` para `.env.local` e preencha as variáveis públicas `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` de um projeto Supabase. Não coloque chaves privadas em variáveis `VITE_`.
 
-Use o modelo do arquivo `.env.example` e configure:
+O servidor Vite sozinho **não executa** `api/contact.js`; contato com persistência e e-mail precisa de `vercel dev` ou deploy da função na Vercel com as variáveis privadas configuradas.
+
+## Supabase e administrador
+
+1. Crie o projeto Supabase e um usuário em **Authentication > Users**. Mantenha cadastro público desabilitado.
+2. Copie o UUID do usuário criado.
+3. Em `supabase/schema.sql`, substitua `COLE_O_UUID_DO_DONO` pelo UUID real e execute o arquivo no SQL Editor. Ele cria tabelas, políticas RLS e registra o administrador; pode ser executado novamente.
+4. Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` no ambiente local. No dashboard da Vercel, também cadastre as variáveis privadas listadas abaixo.
+5. Teste login com o usuário criado e confira mensagens e destaques. Não use UUID fictício nem exponha a chave `service_role`.
+
+## Vercel e variáveis
+
+O plugin Vercel foi localizado no catálogo, mas não está instalado/conectado; não há evidência de projeto ou deploy. Conecte a integração e verifique se há um projeto antigo antes de criar um **projeto separado** para a primeira publicação CP3 com:
+
+- Framework Preset: Vite
+- Root Directory: `./`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+- Production Branch: `main`, conforme ao requisito de deploy automático na branch principal. `feature/cp3-react` gera prévias até ser revisada e integrada à `main`.
+
+`vercel.json` encaminha rotas da SPA para `index.html`; `api/contact.js` é a função serverless. Cadastre no painel, sem compartilhar os valores:
 
 ```env
-PORT=3000
-ADMIN_EMAIL=seu-email@exemplo.com
-ADMIN_PASSWORD_HASH=seu_hash_gerado
-JWT_SECRET=sua_chave_secreta
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=
+CONTACT_FROM_EMAIL=
 ```
 
-### 3. Gere o hash da senha administrativa
+As duas variáveis `VITE_` são públicas no bundle. `SUPABASE_SERVICE_ROLE_KEY` e `RESEND_API_KEY` são privadas de servidor. O Resend exige remetente autorizado/verificado. A mensagem é gravada antes da tentativa de e-mail, e a API retorna separadamente o resultado da notificação.
 
-```bash
-npm run gerar-hash "suaSenhaAqui"
+## Funcionalidades e arquitetura
+
+Rotas: `/`, `/projetos`, `/projetos/:slug`, `/contato`, `/login`, `/dashboard` e página 404. Repositórios são carregados com `fetch`; forks e arquivados são excluídos. Há estados de carregamento, erro, lista vazia e retry. O detalhe usa o nome do repositório na URL. O tema claro/escuro persiste em `localStorage`.
+
+```text
+src/
+  App.jsx                    # Rotas, navegação e tema
+  Dashboard.jsx              # Mensagens e seleção de destaques
+  pages/                     # Home, projetos, contato, login e 404
+  components/                # Formulário, cards, lista e rota protegida
+  hooks/useProjects.js       # Carregamento e estados dos projetos
+  services/                  # GitHub e Supabase
+  utils/                     # Validação e autorização
+api/contact.js               # Função Vercel para contato
+supabase/schema.sql          # Tabelas e políticas RLS
 ```
 
-### 4. Inicie o servidor
+## Qualidade e evidências desta continuação
 
-```bash
-npm start
-```
+Executados localmente na branch `feature/cp3-react`: `npm run lint` passou; `npm test` passou com 13 testes em 3 arquivos; `npm run build` passou. O lockfile fixa as dependências; `npm audit` reportou zero vulnerabilidades após atualizar Vitest e aplicar override de minimatch. No navegador local, foram conferidos o formulário e sua validação, a lista obtida da API pública, um detalhe aberto diretamente e após atualizar a URL, e a página 404. Não foi enviado contato válido nem testado Supabase/Resend.
 
-### 5. Acesse
+O GitHub Actions executa instalação, lint, testes e build. As duas execuções mais recentes consultadas para o commit `2fec2b5` passaram. A URL pública, o deploy, as rotas publicadas e a pontuação Lighthouse ainda não foram confirmados.
 
-- Portfólio: http://localhost:3000
-- Login admin: http://localhost:3000/login.html
-- Painel admin: http://localhost:3000/admin.html
+## Fluxo de trabalho e IA
 
----
+O trabalho CP3 fica em `feature/cp3-react`; revise alterações antes de propor merge para `main`. O workflow CI não faz deploy por si só. Nesta continuação, foram usados Codex desktop (GPT-6), terminal local e conector GitHub para leitura de informações e resultados do Actions. Não foram usados agentes auxiliares nem skills de codificação. O estudante deve revisar e conseguir explicar as mudanças antes da entrega.
 
-## API principal
+## Entrega
 
-### Rotas públicas
-- GET /api/projetos
-- GET /api/projetos/:id
-- POST /api/auth/login
-- POST /api/mensagens
-- GET /api/visita
-- GET /api/visitas
+- Link do repositório e PR: https://github.com/Jmfeliciano2/portifolio/pull/1
+- Deploy Vercel: o plugin está disponível, mas não instalado/conectado; depois de conectar, conferir o projeto antigo e configurar o CP3 separado
+- Lighthouse mobile: pendente de medição em uma URL publicada
+- Integração Supabase/Resend: pendente de credenciais e teste real
+- Vídeo: deve ser gravado pelo estudante, com rosto e tela, até 8 minutos; use `ROTEIRO-VIDEO-CP3.md`
 
-### Rotas protegidas
-- POST /api/projetos
-- PUT /api/projetos/:id
-- DELETE /api/projetos/:id
-- GET /api/mensagens
-
----
-
-## Observações importantes
-
-- O banco SQLite local é usado para persistir dados do portfólio.
-- Os projetos de seed ficam em [data/projetos.json](data/projetos.json) e são inseridos automaticamente quando a tabela estiver vazia.
-- O painel administrativo continua habilitado para editar ou excluir projetos após a carga inicial.
-
----
-
-## Autor
-
-João Matheus
-
-- GitHub: https://github.com/Jmfeliciano2
-- LinkedIn: https://www.linkedin.com/in/joaomatheusfeliciano/
-- Email: felicianomatheus265@gmail.com
-
+**Entrega prevista no material atual: 03/11/2026.**

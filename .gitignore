@@ -1,5 +1,9 @@
 node_modules/
+dist/
 .env
+.env.*
+!.env.example
+*.local
 data/*.db
 Backend/*.sqlite
 Backend/*.sqlite-*
