@@ -1,47 +1,65 @@
 # Roteiro de vídeo — Entrevista técnica CP3 (até 8 minutos)
-**Grave sua webcam e sua tela simultaneamente durante TODO o vídeo. Não leia afirmações de funcionalidades sem testá-las.**
 
-## 0:00–0:45 | Apresentação
-"Olá, sou João Matheus, estudante do segundo semestre de Engenharia de Software da FIAP. Para esse checkpoint, evoluí meu portfólio original de HTML, CSS e JavaScript para React. A proposta é mostrar meus projetos e explicar as decisões de engenharia e como usei IA no processo."
+**O estudante deve gravar a própria apresentação, com rosto e tela durante todo o vídeo. Mostre somente fluxos que realmente testou e não revele credenciais.**
 
-**Na tela:** home do portfólio.
+## 0:00–0:40 | Apresentação
 
-## 0:45–2:00 | Demonstração
-"Os projetos são buscados automaticamente da API do GitHub usando fetch e async/await, conceitos que vimos em aula. Não preciso cadastrar manualmente cada repositório. Ao clicar em um projeto, a URL mostra seu nome, e a página carrega os detalhes. Também tratei os estados de carregamento, erro e ausência de dados, além de criar uma página 404. O tema fica salvo em localStorage."
+"Olá, sou João Matheus, estudante do segundo semestre de Engenharia de Software da FIAP. Neste CP3, evoluí o portfólio estático para React e Vite. Vou demonstrar o que testei localmente e explicar as integrações que ainda precisam de configuração externa."
 
-**Na tela:** projetos, detalhe, atualização da URL e tema. Se o deploy não estiver pronto, mostre a versão local.
+**Tela:** página inicial local ou publicada, conforme estiver funcionando no dia. Se usar local, diga que é local.
 
-## 2:00–3:10 | Arquitetura
-"Organizei o frontend com React e Vite. O main.jsx inicia a aplicação; o App.jsx organiza as rotas; services/github.js fica responsável pela API; utils/validation.js valida o formulário e Dashboard.jsx contém a parte administrativa. Separar essas responsabilidades evita misturar tudo em um componente."
+## 0:40–1:50 | Portfólio e navegação
 
-**Na tela:** árvore de arquivos no VS Code. Desenhe: React → API do GitHub; formulário → Vercel → Supabase + Resend; dashboard → Supabase Auth + banco.
+"Os projetos vêm da API pública do GitHub usando fetch. O código filtra repositórios arquivados e forks. Também há detalhes por projeto, navegação de contato e página 404. O tema pode alternar entre claro e escuro e fica salvo no navegador."
 
-## 3:10–4:25 | Escolhas e trocas
-"Escolhi Vite em vez de Next.js por ser mais direto para aprender React e JSX. Usei CSS puro em vez de Tailwind para aproveitar meus conhecimentos e preservar meu visual. Escolhi fetch em vez de Axios porque é nativo e foi ensinado em aula. O React Router organiza as páginas, mas precisei configurar redirecionamento da Vercel para links diretos. Para o dashboard, o Supabase simplifica login e dados em produção, embora dependa de configuração externa. Também dispensei elementos 3D para priorizar desempenho."
+**Telas:** home, lista carregada, detalhe do repositório /projetos/follow-up aberto diretamente e após atualizar, contato com validação inválida e rota 404. Não envie um contato válido durante a gravação sem ambiente de teste configurado.
 
-## 4:25–5:35 | Qualidade, segurança e performance
-"Os hooks useState e useEffect controlam o formulário e as requisições. O botão é desativado durante o envio. A área administrativa exige login e o banco usa políticas RLS; esconder a rota sozinho não é suficiente para proteger dados. O dashboard é carregado somente quando necessário usando React.lazy. Os testes Vitest verificam a validação e o bloqueio de acesso."
-**Na tela:** testes e status do GitHub Actions. Mostre o resultado real do Lighthouse mobile, sem inventar nota.
+## 1:50–2:55 | React e organização
 
-## 5:35–6:30 | Branch até deploy
-"Utilizei uma branch separada, feature/cp3-react, com commits que seguem um padrão como feat:, fix: e docs:. Antes de integrar na main, faço revisão e verificações. O fluxo previsto é branch, alterações, testes, Pull Request, revisão e merge; quando a main é atualizada, a Vercel realiza o deploy automaticamente após configurar a integração."
+"main.jsx inicia o React. App.jsx organiza rotas e navegação. ProjectList passa dados por props para ProjectCard; useProjects cuida do carregamento, erro e tentativa novamente; services/github.js isola o acesso à API."
 
-**Na tela:** branch, PR e Vercel quando estiver conectado. Não diga que o deploy está ativo antes de configurá-lo.
+**Telas:** árvore src/, ProjectList.jsx, ProjectCard.jsx, useProjects.js e services/github.js.
 
-## 6:30–7:40 | Harness de IA
-"Usei ChatGPT com o modelo GPT-6 e o conector GitHub para ler o repositório existente e preparar alterações sem perder o histórico. Versionei no AGENTS.md instruções para a IA seguir: nomes em PascalCase, hooks começando com use, separação entre interface e chamadas de API, cuidado com senhas, padrão dos commits e uso de branches. Também incluí documentação e verificações automáticas. A escolha foi usar IA como apoio e revisar pessoalmente cada decisão, em vez de só aceitar código sem entender."
+## 2:55–4:00 | Formulário e API
 
-**Na tela:** AGENTS.md, README, commits, PR e GitHub Actions.
+"O formulário valida os campos no navegador e envia um POST para /api/contact. A função de servidor valida novamente, salva a mensagem no Supabase e só depois tenta enviar o e-mail pelo Resend. A interface distingue mensagem salva de notificação enviada. O Vite sozinho não executa essa função; ela depende da Vercel e de credenciais configuradas."
 
-## 7:40–8:00 | Encerramento
-"O projeto mostra minha evolução em frontend e integração com APIs, além de organização e boas práticas de engenharia. Obrigado pela oportunidade de apresentar meu trabalho."
+**Telas:** ContactForm.jsx, validação local e api/contact.js. Diga claramente se o endpoint não foi testado em produção.
 
----
+## 4:00–5:00 | Login, dashboard e segurança
 
-## Checklist antes de gravar
-- [ ] Abrir a URL real da Vercel (página e rotas diretas)
-- [ ] Testar login, mensagens, destaques e e-mail
-- [ ] Executar testes e verificar resultado do Lighthouse mobile
-- [ ] Apresentar o modelo/ferramenta realmente usados e os arquivos de instrução
-- [ ] Conferir webcam e captura da tela
-- [ ] Publicar como **não listado** e copiar o link para o Teams
+"A rota administrativa verifica a sessão e se o ID do usuário foi cadastrado como administrador. O banco também usa políticas RLS, então esconder a tela não é a única proteção. Sem configurar o Supabase e o UUID real, não devo afirmar que o login ou as operações foram testados."
+
+**Telas:** ProtectedRoute.jsx, src/utils/auth.js, Dashboard.jsx e supabase/schema.sql. Só mostre login/dashboard real se você tiver testado com Supabase.
+
+## 5:00–5:50 | Testes e qualidade
+
+"Na revisão local desta versão, lint passou, o build passou e os 13 testes Vitest passaram. Eles cobrem validação, regra de administrador, estado inicial da rota e respostas de método e validação da API. Isso não substitui a prova de persistência, e-mail ou testes reais no banco."
+
+**Tela:** executar npm run lint, npm test, npm run build, ou mostrar os resultados desta revisão. Para o GitHub Actions, mostre o commit e execução correspondente; não trate verificações de um commit antigo como validação das últimas mudanças locais.
+
+## 5:50–6:35 | GitHub Flow e Vercel
+
+"A versão React está na branch feature/cp3-react e o PR está aberto como rascunho. Não houve merge automático para main. O primeiro deploy desta versão deve ser feito em um projeto Vercel separado, usando Vite e a branch CP3 como branch de produção."
+
+**Tela:** branch, PR e configurações da Vercel somente se já estiverem disponíveis. Se ainda estiver pendente, explique o que falta. Não diga que existe URL de produção sem confirmar.
+
+## 6:35–7:30 | Performance e harness de IA
+
+"O dashboard é carregado sob demanda e os bundles são gerados pelo Vite. Ainda preciso medir Lighthouse mobile numa URL publicada; por isso não vou apresentar uma pontuação. Nesta continuação usei Codex desktop GPT-6, terminal local e conector GitHub de leitura. Não usei agentes auxiliares nem skills de codificação. As instruções estão em AGENTS.md, e a revisão humana do estudante continua necessária."
+
+**Telas:** AGENTS.md, tamanho do build e relatório Lighthouse apenas se houver medição real.
+
+## 7:30–8:00 | Encerramento
+
+"Esse projeto me ajudou a praticar React, consumo de APIs, estados, validação e organização. As próximas etapas são configurar e testar Supabase/Resend, publicar em projeto Vercel separado, medir desempenho e concluir a apresentação."
+
+## Checklist de gravação
+
+- [ ] Confirmar se a demonstração é local ou URL pública real.
+- [ ] Conferir rotas, detalhe, refresh e 404.
+- [ ] Não enviar dados reais sem ambiente de teste autorizado.
+- [ ] Não revelar .env, tokens, chaves ou dados pessoais de terceiros.
+- [ ] Mostrar somente testes e pontuações realmente executados.
+- [ ] Gravar rosto e tela por todo o vídeo e manter duração de até 8 minutos.
+- [ ] Publicar como não listado, copiar o link e entregar pelo canal solicitado pela FIAP.

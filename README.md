@@ -1,37 +1,53 @@
 # João Matheus — Portfólio React (CP3 FIAP)
 
-Portfólio de João Matheus, estudante do **2º semestre de Engenharia de Software na FIAP**. Esta branch migra o visual e o conteúdo do site original para React, usando os temas das aulas: JSX, componentes, props, hooks useState e integração com APIs via fetch/async-await/try-catch.
-
-**Importante:** esta é uma branch de implementação. O site da `main` permanece na versão original até que o aluno teste e aprove as alterações. O deploy na Vercel, as credenciais e o vídeo precisam ser configurados pelo aluno.
+Portfólio de João Matheus, estudante do **2º semestre de Engenharia de Software na FIAP**. A branch `feature/cp3-react` evolui o site original para React e Vite, usando JSX, componentes, hooks e APIs estudadas em aula, preservando o visual escuro com destaque laranja.
 
 ## Tecnologias
 
-| Escolha | Por que | Alternativa / perda aceita |
-| --- | --- | --- |
-| React + Vite | Foco em JSX e componentes, sem backend acoplado | Next.js incluiria mais recursos, mas exige novos conceitos |
-| React Router | Rotas claras e páginas individuais | Rotas no cliente precisam de rewrite na Vercel |
-| CSS puro | Preserva o visual e usa conhecimentos já estudados | Mais regras manuais que Tailwind |
-| fetch + useEffect/useState | Conteúdo das aulas, sem instalar Axios/Query | Cache básico em memória, sem invalidação sofisticada |
-| API do GitHub | Repositórios reais, sem cadastro manual | Sujeita a limite de requisições e indisponibilidade |
-| Supabase (Auth + Postgres) | Banco online e login persistentes | Serviço adicional e configuração de RLS |
-| Resend + função Vercel | E-mail enviado do servidor com chave privada | Exige domínio remetente verificado |
-| Vitest | Testes básicos de validação e autorização | Não substitui testes de navegador |
-| GitHub Flow | Cada recurso em branch, PR para main | Mais etapas que commits diretos |
+| Escolha                           | Motivo                                                   | Trade-off                                       |
+| --------------------------------- | -------------------------------------------------------- | ----------------------------------------------- |
+| React + Vite                      | Foco em JSX e componentes                                | Rotas de cliente precisam de fallback no deploy |
+| React Router                      | Organiza páginas e detalhes individuais                  | Não renderiza páginas no servidor               |
+| CSS puro                          | Preserva o estilo e usa conhecimentos estudados          | Mais regras manuais                             |
+| `fetch`, `useState` e `useEffect` | API nativa e conceitos das aulas                         | Cache simples em memória                        |
+| API pública do GitHub             | Lista repositórios reais sem cadastro fixo               | Sujeita a limite e indisponibilidade da API     |
+| Supabase Auth e Postgres          | Login e dados persistentes para a área administrativa    | Exige configurar projeto, variáveis e RLS       |
+| Vercel Function + Resend          | Salva mensagens no servidor e tenta notificar por e-mail | Requer credenciais e remetente verificado       |
+| Vitest                            | Testa validação, autorização e API                       | Não substitui testes completos em navegador     |
 
 ## Rodar localmente
 
-1. Instale Node.js 20.19 ou mais recente.
-2. Execute `npm install` na pasta do projeto.
-3. Copie `.env.example` para `.env.local`, preenchendo as duas variáveis `VITE_SUPABASE_*` com os valores **públicos** do seu Supabase.
-4. No SQL Editor do Supabase, crie primeiro seu usuário em **Authentication > Users**, copie o UUID e siga o comentário em `supabase/schema.sql` para cadastrá-lo em `admin_users`. Desabilite cadastros públicos. A rota do dashboard confere o login e a existência do UUID na tabela de administradores; as políticas RLS repetem essa autorização no banco.
-5. Rode `npm run dev`, abra o endereço indicado pelo Vite.
-6. Verifique: `npm test`, `npm run lint`, `npm run build`.
+Requer Node.js 20.19 ou mais recente.
 
-### Importante sobre contato
+```bash
+npm install
+npm run dev
+```
 
-O `npm run dev` do Vite **não** executa a função `/api/contact`. Para testar o formulário com backend, use a função no ambiente da Vercel ou `vercel dev`, após configurar Supabase e Resend.
+Abra o endereço mostrado pelo Vite. A aplicação pública e a listagem do GitHub funcionam sem variáveis locais. Para habilitar o login/dashboard, copie `.env.example` para `.env.local` e preencha as variáveis públicas `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` de um projeto Supabase. Não coloque chaves privadas em variáveis `VITE_`.
 
-Na Vercel, importe este repositório, escolha **Vite**, Build Command `npm run build`, Output Directory `dist` e configure:
+O servidor Vite sozinho **não executa** `api/contact.js`; contato com persistência e e-mail precisa de `vercel dev` ou deploy da função na Vercel com as variáveis privadas configuradas.
+
+## Supabase e administrador
+
+1. Crie o projeto Supabase e um usuário em **Authentication > Users**. Mantenha cadastro público desabilitado.
+2. Copie o UUID do usuário criado.
+3. Em `supabase/schema.sql`, substitua `COLE_O_UUID_DO_DONO` pelo UUID real e execute o arquivo no SQL Editor. Ele cria tabelas, políticas RLS e registra o administrador; pode ser executado novamente.
+4. Configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` no ambiente local. No dashboard da Vercel, também cadastre as variáveis privadas listadas abaixo.
+5. Teste login com o usuário criado e confira mensagens e destaques. Não use UUID fictício nem exponha a chave `service_role`.
+
+## Vercel e variáveis
+
+O plugin Vercel foi localizado no catálogo, mas não está instalado/conectado; não há evidência de projeto ou deploy. Conecte a integração e verifique se há um projeto antigo antes de criar um **projeto separado** para a primeira publicação CP3 com:
+
+- Framework Preset: Vite
+- Root Directory: `./`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+- Production Branch: `main`, conforme ao requisito de deploy automático na branch principal. `feature/cp3-react` gera prévias até ser revisada e integrada à `main`.
+
+`vercel.json` encaminha rotas da SPA para `index.html`; `api/contact.js` é a função serverless. Cadastre no painel, sem compartilhar os valores:
 
 ```env
 VITE_SUPABASE_URL=
@@ -43,59 +59,41 @@ CONTACT_TO_EMAIL=
 CONTACT_FROM_EMAIL=
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` e `RESEND_API_KEY` são **secretas**, apenas no servidor. Não use prefixo `VITE_` para essas chaves. Configure um endereço remetente autorizado/verificado no Resend para o e-mail chegar. O formulário salva a mensagem antes de tentar notificar por e-mail e diferencia sucesso do armazenamento de sucesso do e-mail.
+As duas variáveis `VITE_` são públicas no bundle. `SUPABASE_SERVICE_ROLE_KEY` e `RESEND_API_KEY` são privadas de servidor. O Resend exige remetente autorizado/verificado. A mensagem é gravada antes da tentativa de e-mail, e a API retorna separadamente o resultado da notificação.
 
 ## Funcionalidades e arquitetura
 
+Rotas: `/`, `/projetos`, `/projetos/:slug`, `/contato`, `/login`, `/dashboard` e página 404. Repositórios são carregados com `fetch`; forks e arquivados são excluídos. Há estados de carregamento, erro, lista vazia e retry. O detalhe usa o nome do repositório na URL. O tema claro/escuro persiste em `localStorage`.
+
 ```text
 src/
-  main.jsx                  # Entrada React
-  App.jsx                   # Rotas e tema
-  Dashboard.jsx             # Painel com React.lazy
-  styles.css                # Identidade visual
-  pages/                    # Home, Projects, ProjectDetails, Contact, Login, NotFound
-  components/               # ProjectCard, ProjectList, ContactForm, ProtectedRoute
-  hooks/useProjects.js      # Estados de carregamento/erro/dados
-  services/github.js        # fetch GitHub + cache
-  services/supabase.js      # Conexão e destaques
-  utils/validation.js       # Validação formulário
-  utils/auth.js             # Verificação de autenticação
-  utils/*.test.js           # Testes automatizados
-api/contact.js              # API serverless: salva mensagem e envia e-mail
-supabase/schema.sql         # Tabelas + políticas RLS
-public/favicon.svg          # Identidade original
-AGENTS.md                   # Instruções da IA versionadas
-CP3-PLANO.md                # Checklist e roteiro
-ROTEIRO-VIDEO-CP3.md        # Roteiro de apresentação
-vercel.json                 # Fallback de rotas no React Router
+  App.jsx                    # Rotas, navegação e tema
+  Dashboard.jsx              # Mensagens e seleção de destaques
+  pages/                     # Home, projetos, contato, login e 404
+  components/                # Formulário, cards, lista e rota protegida
+  hooks/useProjects.js       # Carregamento e estados dos projetos
+  services/                  # GitHub e Supabase
+  utils/                     # Validação e autorização
+api/contact.js               # Função Vercel para contato
+supabase/schema.sql          # Tabelas e políticas RLS
 ```
 
-Fluxo de dados: navegador React → GitHub API (projetos); navegador → `/api/contact` Vercel → Supabase / Resend (contato); dashboard com autenticação Supabase → tabelas com RLS (mensagens e destaque).
+## Qualidade e evidências desta continuação
 
-As rotas `/`, `/projetos`, `/projetos/:slug`, `/contato`, `/login`, `/dashboard` e 404 estão incluídas. Os repositórios da API contêm nome, descrição, linguagem e última atualização. A busca de projetos compartilha uma Promise em memória, evitando novo fetch entre páginas na mesma visita. O tema usa localStorage. O dashboard tem carregamento sob demanda. Os projetos destacados usam tabela Supabase, com fallback para os três primeiros do GitHub.
+Executados localmente na branch `feature/cp3-react`: `npm run lint` passou; `npm test` passou com 13 testes em 3 arquivos; `npm run build` passou. O lockfile fixa as dependências; `npm audit` reportou zero vulnerabilidades após atualizar Vitest e aplicar override de minimatch. No navegador local, foram conferidos o formulário e sua validação, a lista obtida da API pública, um detalhe aberto diretamente e após atualizar a URL, e a página 404. Não foi enviado contato válido nem testado Supabase/Resend.
 
-## Workflow e IA
+O GitHub Actions executa instalação, lint, testes e build. As duas execuções mais recentes consultadas para o commit `2fec2b5` passaram. A URL pública, o deploy, as rotas publicadas e a pontuação Lighthouse ainda não foram confirmados.
 
-**GitHub Flow:** `feature/nome-da-funcionalidade` → commits Conventional Commits → pull request → revisão → `main` → deploy automático conectado à Vercel.
+## Fluxo de trabalho e IA
 
-Prefixos: `feat:`, `fix:`, `docs:`, `test:`, `style:`, `refactor:`, `chore:`. Componentes React em PascalCase, funções em camelCase e hooks começam em `use`. Serviços externos separados dos elementos visuais quando possível. Há configuração de ESLint, Prettier, Husky e lint-staged (é preciso `npm install` para instalar hooks). Leia `AGENTS.md` para as instruções dadas à IA.
+O trabalho CP3 fica em `feature/cp3-react`; revise alterações antes de propor merge para `main`. O workflow CI não faz deploy por si só. Nesta continuação, foram usados Codex desktop (GPT-6), terminal local e conector GitHub para leitura de informações e resultados do Actions. Não foram usados agentes auxiliares nem skills de codificação. O estudante deve revisar e conseguir explicar as mudanças antes da entrega.
 
-**Harness usado nesta etapa:** ChatGPT com modelo GPT-6, conector GitHub, regras versionadas em `AGENTS.md` e revisão do estudante. Codex é uma opção futura, mas não foi usado nesta etapa. Nenhum agente auxiliar ou skill de codificação adicional foi configurado.
+## Entrega
 
-## Testes e requisitos que precisam de comprovação
+- Link do repositório e PR: https://github.com/Jmfeliciano2/portifolio/pull/1
+- Deploy Vercel: o plugin está disponível, mas não instalado/conectado; depois de conectar, conferir o projeto antigo e configurar o CP3 separado
+- Lighthouse mobile: pendente de medição em uma URL publicada
+- Integração Supabase/Resend: pendente de credenciais e teste real
+- Vídeo: deve ser gravado pelo estudante, com rosto e tela, até 8 minutos; use `ROTEIRO-VIDEO-CP3.md`
 
-Há testes automáticos para validação do formulário e para a regra de autorização do dono (incluindo usuário sem login e usuário logado sem permissão). O GitHub Actions executa lint, testes e build em cada push na branch configurada. O alvo **Lighthouse mobile ≥80** precisa ser medido após deploy real com Chrome Lighthouse ou PageSpeed Insights. Também precisam ser testados envio de e-mail com domínio verificado, persistência de mensagens, login, políticas RLS, atualização direta da rota por link e deploy a cada push na `main`.
-
-### Entrega até 03/11/2026
-
-- Link público do repositório GitHub.
-- Link funcional da Vercel (não confundir com GitHub Pages).
-- Vídeo no YouTube como **não listado**, máximo de 8 minutos, com rosto e tela visíveis, mostrando stack, alternativas, trade-offs, estrutura, fluxo de branches/deploy e o harness de IA real.
-
-## Histórico
-
-Os arquivos da versão antiga (HTML/JS, Express/SQLite) foram mantidos no repositório para referência, mas não fazem parte do build Vite. A versão anterior continua acessível no histórico Git.
-
-## Autor
-
-João Matheus — [GitHub](https://github.com/Jmfeliciano2) · [LinkedIn](https://www.linkedin.com/in/joaomatheusfeliciano/)
+**Entrega prevista no material atual: 03/11/2026.**
